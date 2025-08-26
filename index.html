@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>王凯萱 · Cher Wang Art</title>
+<meta name="description" content="水彩与油画作品集 · 柔性的她力量 · Poetic feminist watercolor & oil paintings by Cher Wang.">
+<style>
+:root{--bg:#fff;--text:#111;--muted:#666;--line:#eee;--maxw:1080px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans SC",sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--text);text-decoration:none}
+.container{max-width:var(--maxw);margin:0 auto;padding:24px}
+header{padding:32px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand h1{font-family:"Noto Serif SC","Noto Serif",Georgia,serif;font-size:28px;letter-spacing:.2px;margin:0}
+.brand .tag{color:var(--muted)}
+.cta{margin-left:auto;display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--line);border-radius:999px}
+.hero{padding:22px 0 6px}
+.hero p{margin:14px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 10px}
+.card{position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#fafafa;cursor:pointer}
+.card img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .45s ease}
+.card:hover img{transform:scale(1.03)}
+.caption{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.86);padding:6px 10px;border-radius:8px;font-size:12px;color:#333;border:1px solid #ddd}
+section{padding:14px 0;border-top:1px solid var(--line)}
+footer{padding:26px 0;color:var(--muted);border-top:1px solid var(--line);margin-top:10px;font-size:14px}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;padding:24px;z-index:9999}
+.lightbox.open{display:flex}
+.lightbox img{max-width:min(1200px,92vw);max-height:86vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.lightbox .meta{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;color:#fff;background:rgba(0,0,0,.4);padding:8px 12px;border-radius:8px;font-size:14px}
+.lightbox .close{position:fixed;top:14px;right:14px;background:#fff;border:none;border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.brand h1{font-size:22px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <header class="container">
+    <div class="brand" style="width:100%">
+      <h1>王凯萱 · Cher Wang Art</h1>
+      <span class="tag">Watercolor · Oil · Feminine Poetic Power</span>
+      <a class="cta" href="mailto:hello@example.com?subject=Cher%20Wang%20Art%20Inquiry">联系 / Contact</a>
+    </div>
+    <div class="hero">
+      <p>“爱是发光的，天地间唯生命值得被歌颂。” —— 以水彩与油画描绘柔性的她力量。<br>
+      This is a clean, one-file portfolio you can publish via GitHub Pages in minutes.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>精选作品 / Featured Works</h2>
+      <div class="grid" id="gallery"></div>
+    </section>
+
+    <section>
+      <h2>艺术家简介 / Bio</h2>
+      <p>水彩画家、油画家。作品入选国家级展览与国际展，并获美国西北水彩画协会（NWWS）第81届国际展材料奖。创作关注“女性主义者大爱”的柔性力量，常以自然与日常图景折射生命之光。（以上文字为示例，可按 EB-1A 材料替换）</p>
+    </section>
+
+    <section>
+      <h2>联络 / Commissions</h2>
+      <p>商务合作、展览代理、定制委托，请邮件联系：<a href="mailto:hello@example.com">hello@example.com</a></p>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div>© 2025 Cher Wang · All rights reserved.</div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" id="closeBtn" aria-label="Close">×</button>
+    <img id="lightboxImg" alt="Artwork preview">
+    <div class="meta" id="lightboxMeta">Title · Medium · Size</div>
+  </div>
+
+<script>
+/* 占位图片（可用你自己的作品图替换）—— 为了“单文件上线”，这里用 data:image/svg+xml;utf8 嵌入 */
+function svgData(title, color){
+  const tpl = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200">
+    <defs>
+      <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0" stop-color="${color}" stop-opacity="0.9"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0.9"/>
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <g fill="#111">
+      <text x="50%" y="50%" text-anchor="middle" font-family="Inter,Arial,'Noto Sans SC',sans-serif" font-size="72" font-weight="700">${title}</text>
+      <text x="50%" y="58%" text-anchor="middle" font-family="Inter,Arial,'Noto Sans SC',sans-serif" font-size="28">Replace with your artwork</text>
+    </g>
+  </svg>`;
+  return "data:image/svg+xml;utf8,"+encodeURIComponent(tpl.trim());
+}
+
+const works = [
+  {title:'Blue Dream · 蓝之梦', meta:'Watercolor · 53×76cm', src: svgData('Blue Dream','%23c8d8ff')},
+  {title:'Poetic Light · 诗意之光', meta:'Watercolor', src: svgData('Poetic Light','%23ffd8d8')},
+  {title:'Green Breeze · 绿意微风', meta:'Oil on canvas', src: svgData('Green Breeze','%23e8ffd8')},
+  {title:'Soft Waves · 软波', meta:'Watercolor', src: svgData('Soft Waves','%23ffe8c8')},
+  {title:'Spring River · 春江', meta:'Ink & wash', src: svgData('Spring River','%23e8d8ff')},
+  {title:'City Impressions · 城市印象', meta:'Watercolor', src: svgData('City Impressions','%23d8fff2')},
+  {title:'Breezes Field · 田野之风', meta:'Watercolor', src: svgData('Breezes Field','%23ffd8f0')},
+  {title:'Encounter · 相遇', meta:'Oil on canvas', src: svgData('Encounter','%23d8e8ff')},
+  {title:'Quiet Space · 静谧的空间', meta:'Watercolor', src: svgData('Quiet Space','%23f4ffd8')}
+];
+
+const g = document.getElementById('gallery');
+works.forEach((w,i)=>{
+  const card = document.createElement('a');
+  card.className='card'; card.href=w.src; card.setAttribute('data-idx', i);
+  card.innerHTML = `
+    <img src="${w.src}" alt="${w.title}">
+    <span class="caption">${w.title}</span>
+  `;
+  card.addEventListener('click', (e)=>{ e.preventDefault(); openLightbox(i); });
+  g.appendChild(card);
+});
+
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightboxImg');
+const lbMeta = document.getElementById('lightboxMeta');
+const closeBtn = document.getElementById('closeBtn');
+
+function openLightbox(i){
+  const w = works[i];
+  lbImg.src = w.src;
+  lbImg.alt = w.title;
+  lbMeta.textContent = `${w.title} · ${w.meta}`;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden','false');
+}
+function closeLightbox(){
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+  lbImg.src='';
+}
+closeBtn.addEventListener('click', closeLightbox);
+lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox(); });
+</script>
+</body>
+</html>
