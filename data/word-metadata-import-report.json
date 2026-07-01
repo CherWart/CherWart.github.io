@@ -1,0 +1,78 @@
+{
+  "totalArtworksChecked": 67,
+  "totalArtworksUpdated": 67,
+  "wordRecordsParsed": 70,
+  "unparsableWordDocuments": [],
+  "unmatchedExistingWebsiteRecords": [],
+  "unusedWordRecords": [
+    {
+      "artworkId": "KXW-O-069",
+      "titleZh": "夕阳凝望",
+      "titleEn": "Gazing into the Sunset",
+      "sourceFile": "KXW-O-0-夕阳凝望-Artwork Records.docx"
+    },
+    {
+      "artworkId": "KXW-O-068",
+      "titleZh": "散步",
+      "titleEn": "Walking",
+      "sourceFile": "KXW-O-068-散步-Artwork_Records_Animals.docx"
+    },
+    {
+      "artworkId": "KXW-O-070",
+      "titleZh": "白金",
+      "titleEn": "Platinum",
+      "sourceFile": "KXW-O-070-白金-Artwork Records.docx"
+    }
+  ],
+  "remainingMissingFields": [
+    {
+      "artworkId": "KXW-W-019",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-019闲谈_Conversation.docx"
+    },
+    {
+      "artworkId": "KXW-W-020",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-020蓝色练习曲_Blue_Etude.docx"
+    },
+    {
+      "artworkId": "KXW-W-022",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-022_前海绿幕_Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-024",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-024_乡村小路上_Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-025",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-025_大芬印象（二）_Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-026",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-026_雎鸠游伴Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-027",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-027-映像Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-028",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-028 街边Artwork.docx"
+    },
+    {
+      "artworkId": "KXW-W-031",
+      "field": "keywords",
+      "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-031_乡村琉璃路_Vill(1).docx"
+    }
+  ],
+  "verificationMismatches": [],
+  "duplicateWordIds": {
+    "KXW-W-005": 2
+  }
+}

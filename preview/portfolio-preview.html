@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Preview | Cher Wang / Wang Kaixuan</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    body { background: var(--surface); }
+    .preview-banner { background: var(--charcoal); color: var(--surface); padding: 16px 0; }
+    .preview-banner .shell { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .preview-banner p { margin: 0; color: rgba(255,253,248,.78); font-size: 14px; }
+    .preview-banner strong { color: var(--surface); }
+    .preview-stat { border: 1px solid rgba(255,253,248,.24); padding: 6px 10px; font-size: 13px; }
+    .preview-main { min-height: 100vh; }
+    .portfolio-section { border-top: 0; }
+    .art-card { display: block; color: inherit; }
+    .art-card img { background: #eee8dd; }
+    .preview-source { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+    .filter-bar[data-preview-count]::after { content: attr(data-preview-count); padding: 0 10px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    @media (max-width: 680px) { .preview-banner .shell { align-items: flex-start; } }
+  </style>
+</head>
+<body data-lang="both">
+  <a class="skip-link" href="#portfolio">Skip to portfolio preview</a>
+  <header class="preview-banner">
+    <div class="shell">
+      <p><strong>Portfolio Preview</strong> / 作品预览 · Verified records only · No website data updated</p>
+      <span class="preview-stat" data-preview-summary>67 verified artworks</span>
+    </div>
+  </header>
+  <main class="preview-main">
+    <section class="section portfolio-section" id="portfolio">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Portfolio Preview</p>
+            <h2>
+              <span data-i18n="en">Verified Artwork Records</span>
+              <span data-i18n="zh">已验证作品记录</span>
+            </h2>
+          </div>
+          <div class="filter-bar" aria-label="Filter portfolio by medium" data-preview-count>
+            <button class="is-active" type="button" data-filter="all"><span data-i18n="en">All</span><span data-i18n="zh">全部</span></button>
+            <button type="button" data-filter="watercolor"><span data-i18n="en">Watercolor</span><span data-i18n="zh">水彩</span></button>
+            <button type="button" data-filter="oil"><span data-i18n="en">Oil Painting</span><span data-i18n="zh">油画</span></button>
+            <button type="button" data-filter="printmaking"><span data-i18n="en">Printmaking</span><span data-i18n="zh">版画</span></button>
+            <button type="button" data-filter="pastel"><span data-i18n="en">Pastel</span><span data-i18n="zh">色粉</span></button>
+          </div>
+        </div>
+        <div class="portfolio-grid" data-gallery></div>
+      </div>
+    </section>
+  </main>
+  <div class="lightbox" data-lightbox aria-hidden="true">
+    <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close artwork preview">×</button>
+    <div class="lightbox-panel">
+      <div class="lightbox-image-wrap">
+        <img alt="" data-lightbox-image>
+        <div class="lightbox-caption" data-lightbox-caption></div>
+      </div>
+      <div class="lightbox-record" data-lightbox-record></div>
+    </div>
+  </div>
+  <script src="data/portfolio-preview.js?v=20260701-two-oil-image-fix"></script>
+  <script>
+    (function () {
+      const body = document.body;
+      const artworks = window.CHER_WANG_PREVIEW_ARTWORKS || [];
+      const gallery = document.querySelector('[data-gallery]');
+      const count = document.querySelector('[data-preview-count]');
+      const summary = document.querySelector('[data-preview-summary]');
+      const filterButtons = document.querySelectorAll('[data-filter]');
+      const lightbox = document.querySelector('[data-lightbox]');
+      const lightboxImage = document.querySelector('[data-lightbox-image]');
+      const lightboxCaption = document.querySelector('[data-lightbox-caption]');
+      const lightboxRecord = document.querySelector('[data-lightbox-record]');
+      const lightboxClose = document.querySelector('[data-lightbox-close]');
+      let currentFilter = 'all';
+      function escapeHtml(value) {
+        return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      }
+      function parts(items) { return items.filter(Boolean).map(escapeHtml).join(' · '); }
+      function bilingual(en, zh) {
+        if (!en && !zh) return '';
+        if (en === zh) return '<span>' + escapeHtml(en) + '</span>';
+        return '<span data-i18n="en">' + escapeHtml(en) + '</span><span data-i18n="zh">' + escapeHtml(zh) + '</span>';
+      }
+      function field(labelEn, labelZh, value) {
+        if (!value) return '';
+        return '<section class="record-section"><h4><span data-i18n="en">' + escapeHtml(labelEn) + '</span><span data-i18n="zh">' + escapeHtml(labelZh) + '</span></h4><p>' + escapeHtml(value) + '</p></section>';
+      }
+      function filtered() { return currentFilter === 'all' ? artworks : artworks.filter((art) => art.category === currentFilter); }
+      function render() {
+        const visible = filtered();
+        if (count) count.dataset.previewCount = visible.length + ' shown';
+        if (summary) summary.textContent = artworks.length + ' verified artworks · ' + artworks.filter((art) => art.matchedOriginalImage).length + ' matched images';
+        gallery.innerHTML = visible.map((art) => '<button class="art-card" type="button" data-index="' + artworks.indexOf(art) + '"><img src="' + escapeHtml(art.image) + '" alt="' + escapeHtml([art.titleEn, art.titleZh].filter(Boolean).join(' / ')) + '"><div class="art-card-body"><p class="record-id">' + escapeHtml(art.artworkId) + '</p><h3>' + bilingual(art.titleEn, art.titleZh) + '</h3><p class="meta-line">' + parts([art.year, art.medium]) + '</p><p class="meta-line">' + parts([art.dimensions, art.series]) + '</p></div></button>').join('');
+        gallery.querySelectorAll('[data-index]').forEach((card) => card.addEventListener('click', () => open(artworks[Number(card.dataset.index)])));
+      }
+      function open(art) {
+        lightboxImage.src = art.image;
+        lightboxImage.alt = [art.titleEn, art.titleZh].filter(Boolean).join(' / ');
+        lightboxCaption.textContent = [art.titleEn, art.titleZh, art.year, art.medium, art.dimensions, art.series].filter(Boolean).join(' · ');
+        lightboxRecord.innerHTML = '<div class="record-head"><p class="record-id">' + escapeHtml(art.artworkId) + '</p><h3>' + bilingual(art.titleEn, art.titleZh) + '</h3><p class="meta-line">' + parts([art.year, art.medium, art.dimensions, art.series]) + '</p></div>' + field('Artwork ID', '作品编号', art.artworkId) + field('Title (CN)', '中文名称', art.titleZh) + field('Title (EN)', '英文名称', art.titleEn) + field('Year', '创作年代', art.year) + field('Medium', '材质', art.medium) + field('Dimensions', '尺寸', art.dimensions) + field('Series', '系列', art.series) + field('Keywords', '关键词', art.keywords) + field('Artwork Statement (Chinese)', '作品阐述（中文）', art.statementZh) + field('Artwork Statement (English)', '作品阐述（英文）', art.statementEn) + field('Match Status', '匹配状态', art.matchStatus) + '<section class="record-section"><h4><span data-i18n="en">Verified Source Paths</span><span data-i18n="zh">已验证来源路径</span></h4><p class="preview-source">Source document: ' + escapeHtml(art.sourceDocument) + '<br>Matched original image: ' + escapeHtml(art.matchedOriginalImage) + '</p></section>';
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        body.style.overflow = 'hidden';
+      }
+      function close() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.removeAttribute('src');
+        lightboxRecord.innerHTML = '';
+        body.style.overflow = '';
+      }
+      filterButtons.forEach((button) => button.addEventListener('click', () => { currentFilter = button.dataset.filter; filterButtons.forEach((item) => item.classList.toggle('is-active', item === button)); render(); }));
+      lightboxClose.addEventListener('click', close);
+      lightbox.addEventListener('click', (event) => { if (event.target === lightbox) close(); });
+      document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && lightbox.classList.contains('is-open')) close(); });
+      render();
+    })();
+  </script>
+</body>
+</html>

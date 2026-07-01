@@ -1,0 +1,68 @@
+{
+  "totalArtworksChecked": 67,
+  "sourceWordDocumentsChecked": 67,
+  "artworkRecordsWithStatementChanges": 60,
+  "jsonDatabaseStatementUpdates": {
+    "data/artwork-archive.json": 60,
+    "data/catalogue-raisonne-master.json": 60
+  },
+  "previewStatementUpdates": 60,
+  "parseFailures": [],
+  "missingSourceDocuments": [],
+  "missingStatementSections": [],
+  "verificationMismatches": [],
+  "proofSamples": [
+    {
+      "artworkId": "KXW-O-057",
+      "titleZh": "Two Two",
+      "titleEn": "Two Two",
+      "zhMatchesWord": true,
+      "enMatchesWord": true,
+      "statementZhStart": "《Two Two》描绘了一只静静凝视观者的小狗肖像。作品并未将动物作为陪衬，而是赋予其独立的生命主体地位。柔和而富有层次的笔触塑造出毛发的质感与温度，平静的眼神与微微倾斜的姿态传递出信任、陪伴与情感交流。作品试图通过一个具体生命的存在，呈现人与动物共享世界、彼此回应的共生关系。",
+      "statementEnStart": "Two Two portrays a dog gazing quietly toward the viewer. Rather than serving as a companion object, the animal is presented as an independent living presence. Layered brushwork cap"
+    },
+    {
+      "artworkId": "KXW-W-005",
+      "titleZh": "大芬印象",
+      "titleEn": "Dafen Impression",
+      "zhMatchesWord": true,
+      "enMatchesWord": true,
+      "statementZhStart": "《大芬印象》取景于深圳大芬油画村，以强烈的光影关系建构画面空间。耀眼的阳光穿过街巷，照亮涂鸦墙、玻璃立面与远处的城市建筑，使现实场景呈现出介于真实与梦境之间的视觉体验。作品并非记录一处街景，而是描绘艺术在城市中的存在状态。涂鸦、建筑、玻璃与光共同形成开放的关系场域，承载着不同创作者的表达，也映照着艺术与日常生活不断交汇、融合的过程。光线成为画面的精神线索，在",
+      "statementEnStart": "Dafen Impression is inspired by Shenzhen's Dafen Oil Painting Village, where dramatic light structures the entire composition. Sunlight cuts through the streets, illuminating graff"
+    },
+    {
+      "artworkId": "KXW-W-023",
+      "titleZh": "《痕迹》",
+      "titleEn": "Traces",
+      "zhMatchesWord": true,
+      "enMatchesWord": true,
+      "statementZhStart": "《痕迹》取材于深圳旧码头。绳索、电线、水面的倒影，以及船体与建筑留下的线痕，共同构成了画面的视觉语言。每一道痕迹，都记录着时间经过的印记，也诉说着生命的轨迹。那些看似平凡的日常细节，在岁月的沉淀中彼此交织，成为人与环境共同书写的记忆。",
+      "statementEnStart": "Traces is inspired by an old harbor in Shenzhen. Ropes, power lines, reflections on the water, and the linear marks left by boats and surrounding structures together form the visua"
+    },
+    {
+      "artworkId": "KXW-W-030",
+      "titleZh": "《店里店外》",
+      "titleEn": "Inside and Outside the Shop",
+      "zhMatchesWord": true,
+      "enMatchesWord": true,
+      "statementZhStart": "街角的小店，是城市生活最普通的场景之一。画面中，一位女子从店前经过，店内货架整齐排列，店外则是行人的脚步与流动的街道。店里与店外，仅隔着一扇门，却连接着不同的人生节奏。\n我希望记录这种平凡而真实的日常。每个人都在自己的生活轨迹中前行，而人与人、人与环境之间短暂的相遇，也共同构成了城市的温度。那些看似普通的瞬间，因为真实地发生过，而具有值得凝视的意义。",
+      "statementEnStart": "A neighborhood shop is one of the most familiar scenes in urban life. In this painting, a woman walks past the storefront while shelves filled with everyday goods quietly occupy th"
+    },
+    {
+      "artworkId": "KXW-P-042",
+      "titleZh": "《绿风酸甜》",
+      "titleEn": "Sweet and Sour in the Green Wind",
+      "zhMatchesWord": true,
+      "enMatchesWord": true,
+      "statementZhStart": "《绿风酸甜》完成于2025年。作品以葡萄园为题材，描绘成熟葡萄被防虫网轻轻包裹的景象。透明的网袋既保护着果实，也记录着农人对丰收的期待。枝叶、葡萄与远处民居共同构成宁静而富有生活气息的乡村图景。黑白木刻删去了色彩，却保留了风、光与时间留下的痕迹。酸与甜不仅属于果实，也属于土地上的劳作与等待。作品希望通过版画语言，呈现田园生活质朴、真实而富有生命力的诗意。",
+      "statementEnStart": "Completed in 2025, Sweet and Sour in the Green Wind depicts grape clusters protected by translucent bags in a rural vineyard. The coverings symbolize both care and the anticipation"
+    }
+  ],
+  "rulesApplied": [
+    "Parsed statement sections by section headings.",
+    "Keywords / 关键词 is treated as an independent section.",
+    "Keyword content is never used as statement content.",
+    "Only statementZh and statementEn were changed.",
+    "Artwork IDs, image paths, and other metadata were not modified by this script."
+  ]
+}
