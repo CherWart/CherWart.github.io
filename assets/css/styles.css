@@ -221,6 +221,11 @@ button {
   align-items: center;
 }
 
+.hero-grid {
+  grid-template-columns: minmax(0, 0.74fr) minmax(0, 1.26fr);
+  align-items: start;
+}
+
 .hero-copy {
   max-width: 640px;
 }
@@ -296,9 +301,11 @@ h3 {
 
 .hero-art img {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  box-shadow: var(--shadow);
+  height: auto;
+  max-height: min(74vh, 780px);
+  object-fit: contain;
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 
 .hero-art figcaption {
@@ -729,6 +736,10 @@ body[data-lang="both"] .footer-inner [data-i18n="zh"]::before {
 
   .hero {
     min-height: auto;
+  }
+
+  .hero-art {
+    order: -1;
   }
 
   .portfolio-grid {
