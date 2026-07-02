@@ -62,6 +62,16 @@
     return parts.filter(Boolean).map(escapeHtml).join(" · ");
   }
 
+  function responsiveArtworkImage(image) {
+    const desktop = image || "";
+    const mobile = desktop.replace(/-2000\.jpg$/, "-1200.jpg");
+
+    return {
+      src: mobile || desktop,
+      srcset: mobile === desktop ? desktop : `${mobile} 1200w, ${desktop} 2000w`
+    };
+  }
+
   function recordBlock(labelEn, labelZh, value) {
     if (!value) {
       return "";
@@ -81,9 +91,18 @@
       ? artworks
       : artworks.filter((artwork) => artwork.category === currentFilter);
 
-    gallery.innerHTML = filtered.map((artwork, index) => `
+    gallery.innerHTML = filtered.map((artwork, index) => {
+      const image = responsiveArtworkImage(artwork.image);
+
+      return `
       <button class="art-card" type="button" data-art-index="${artworks.indexOf(artwork)}">
-        <img src="${escapeHtml(artwork.image)}" alt="${escapeHtml(artwork.titleEn)} / ${escapeHtml(artwork.titleZh)}">
+        <img
+          src="${escapeHtml(image.src)}"
+          srcset="${escapeHtml(image.srcset)}"
+          sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
+          alt="${escapeHtml(artwork.titleEn)} / ${escapeHtml(artwork.titleZh)}"
+          loading="lazy"
+          decoding="async">
         <div class="art-card-body">
           <h3>
             ${bilingualText(artwork.titleEn, artwork.titleZh)}
@@ -94,7 +113,8 @@
           </p>
         </div>
       </button>
-    `).join("");
+    `;
+    }).join("");
 
     gallery.querySelectorAll("[data-art-index]").forEach((card) => {
       card.addEventListener("click", () => {
@@ -161,7 +181,11 @@
   }
 
   function openLightbox(artwork) {
+    const image = responsiveArtworkImage(artwork.image);
+
     lightboxImage.src = artwork.image;
+    lightboxImage.srcset = image.srcset;
+    lightboxImage.sizes = "100vw";
     lightboxImage.alt = `${artwork.titleEn} / ${artwork.titleZh}`;
     const title = artwork.titleEn === artwork.titleZh ? artwork.titleEn : `${artwork.titleEn} / ${artwork.titleZh}`;
     lightboxCaption.textContent = joinParts([title, artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
@@ -192,6 +216,8 @@
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.removeAttribute("src");
+    lightboxImage.removeAttribute("srcset");
+    lightboxImage.removeAttribute("sizes");
     lightboxRecord.innerHTML = "";
     body.style.overflow = "";
   }
