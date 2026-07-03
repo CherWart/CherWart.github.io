@@ -3,7 +3,7 @@ window.CHER_WANG_PUBLICATIONS = [
     titleEn: "Soft Origin: A Non-Confrontational Philosophy of Being",
     titleZh: "柔性本元：一种非对抗的存在哲学",
     year: "2026",
-    typeEn: "Chinese edition, authored by Wang Kaixuan",
+    typeEn: "Chinese edition, authored by Cher Wang",
     typeZh: "中文版本，王凯萱著",
     image: "assets/images/publications/soft-origin-cn.jpg"
   },

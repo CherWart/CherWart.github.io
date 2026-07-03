@@ -1,4 +1,4 @@
-# Cher Wang / Wang Kaixuan Artist Portfolio
+# Cher Wang / 王凯萱 Artist Portfolio
 
 Static bilingual artist portfolio website for GitHub Pages.
 

@@ -30,6 +30,20 @@
       .replace(/'/g, "&#039;");
   }
 
+  function protectedHtml(value) {
+    return escapeHtml(value)
+      .replace(/Cher Wang/g, '<span translate="no" class="notranslate">Cher Wang</span>')
+      .replace(/WANG KAIXUAN/g, '<span translate="no" class="notranslate">WANG KAIXUAN</span>')
+      .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
+  }
+
+  function protectNamesInHtml(value) {
+    return String(value)
+      .replace(/Cher Wang/g, '<span translate="no" class="notranslate">Cher Wang</span>')
+      .replace(/WANG KAIXUAN/g, '<span translate="no" class="notranslate">WANG KAIXUAN</span>')
+      .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
+  }
+
   function categoryLabel(category) {
     const labels = {
       watercolor: "Watercolor / 水彩",
@@ -49,17 +63,17 @@
     }
 
     if (en === zh) {
-      return `<span>${escapeHtml(en)}</span>`;
+      return `<span>${protectedHtml(en)}</span>`;
     }
 
     return `
-      <span data-i18n="en">${escapeHtml(en)}</span>
-      <span data-i18n="zh">${escapeHtml(zh)}</span>
+      <span data-i18n="en">${protectedHtml(en)}</span>
+      <span data-i18n="zh">${protectedHtml(zh)}</span>
     `;
   }
 
   function joinParts(parts) {
-    return parts.filter(Boolean).map(escapeHtml).join(" · ");
+    return protectNamesInHtml(parts.filter(Boolean).map(escapeHtml).join(" · "));
   }
 
   function responsiveArtworkImage(image) {
@@ -80,7 +94,7 @@
     return `
       <section class="record-section">
         <h4><span data-i18n="en">${escapeHtml(labelEn)}</span><span data-i18n="zh">${escapeHtml(labelZh)}</span></h4>
-        <p>${escapeHtml(value).replace(/\n/g, "<br>")}</p>
+        <p>${protectNamesInHtml(escapeHtml(value).replace(/\n/g, "<br>"))}</p>
       </section>
     `;
   }
@@ -133,12 +147,12 @@
           <div class="cv-year">${escapeHtml(item.year)}</div>
           <div>
             <p class="cv-title">
-              <span data-i18n="en">${escapeHtml(item.titleEn)}</span>
-              <span data-i18n="zh">${escapeHtml(item.titleZh)}</span>
+              <span data-i18n="en">${protectedHtml(item.titleEn)}</span>
+              <span data-i18n="zh">${protectedHtml(item.titleZh)}</span>
             </p>
             <p class="cv-location">
-              <span data-i18n="en">${escapeHtml(item.locationEn)}</span>
-              <span data-i18n="zh">${escapeHtml(item.locationZh)}</span>
+              <span data-i18n="en">${protectedHtml(item.locationEn)}</span>
+              <span data-i18n="zh">${protectedHtml(item.locationZh)}</span>
             </p>
           </div>
         </article>
@@ -152,8 +166,8 @@
       return `
         <section class="cv-group">
           <h3>
-            <span data-i18n="en">${escapeHtml(group.headingEn)}</span>
-            <span data-i18n="zh">${escapeHtml(group.headingZh)}</span>
+            <span data-i18n="en">${protectedHtml(group.headingEn)}</span>
+            <span data-i18n="zh">${protectedHtml(group.headingZh)}</span>
           </h3>
           <div class="cv-list">${body}</div>
         </section>
@@ -172,8 +186,8 @@
           </h3>
           <p class="meta-line">${escapeHtml(item.year)}</p>
           <p class="meta-line">
-            <span data-i18n="en">${escapeHtml(item.typeEn)}</span>
-            <span data-i18n="zh">${escapeHtml(item.typeZh)}</span>
+            <span data-i18n="en">${protectedHtml(item.typeEn)}</span>
+            <span data-i18n="zh">${protectedHtml(item.typeZh)}</span>
           </p>
         </div>
       </article>
@@ -188,7 +202,7 @@
     lightboxImage.sizes = "100vw";
     lightboxImage.alt = `${artwork.titleEn} / ${artwork.titleZh}`;
     const title = artwork.titleEn === artwork.titleZh ? artwork.titleEn : `${artwork.titleEn} / ${artwork.titleZh}`;
-    lightboxCaption.textContent = joinParts([title, artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
+    lightboxCaption.innerHTML = joinParts([title, artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
     lightboxRecord.innerHTML = `
       <div class="record-head">
         <p class="record-id">${escapeHtml(artwork.artworkId || "")}</p>
@@ -204,7 +218,7 @@
       ${recordBlock("Publication", "出版发表", artwork.publication)}
       <section class="record-section">
         <h4><span data-i18n="en">Complete Artwork Record</span><span data-i18n="zh">完整作品档案</span></h4>
-        <pre>${escapeHtml(artwork.fullRecordText || "")}</pre>
+        <pre>${protectNamesInHtml(escapeHtml(artwork.fullRecordText || ""))}</pre>
       </section>
     `;
     lightbox.classList.add("is-open");
