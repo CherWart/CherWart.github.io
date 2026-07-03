@@ -201,8 +201,11 @@
     lightboxImage.srcset = image.srcset;
     lightboxImage.sizes = "100vw";
     lightboxImage.alt = `${artwork.titleEn} / ${artwork.titleZh}`;
-    const title = artwork.titleEn === artwork.titleZh ? artwork.titleEn : `${artwork.titleEn} / ${artwork.titleZh}`;
-    lightboxCaption.innerHTML = joinParts([title, artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
+    const meta = joinParts([artwork.year, artwork.medium]);
+    lightboxCaption.innerHTML = `
+      <span>${protectedHtml(artwork.titleEn)}<br>${meta}</span>
+      <span>${protectedHtml(artwork.titleZh)}<br>${meta}</span>
+    `;
     lightboxRecord.innerHTML = `
       <div class="record-head">
         <p class="record-id">${escapeHtml(artwork.artworkId || "")}</p>

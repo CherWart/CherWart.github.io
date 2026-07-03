@@ -254,6 +254,10 @@ h1 {
   font-size: clamp(48px, 7vw, 92px);
 }
 
+.hero-artist-name span {
+  display: block;
+}
+
 h2 {
   font-size: clamp(32px, 4vw, 56px);
 }
