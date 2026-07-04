@@ -78,6 +78,14 @@
 
   function responsiveArtworkImage(image) {
     const desktop = image || "";
+
+    if (desktop.includes("/artworks/oil-painting/")) {
+      return {
+        src: desktop,
+        srcset: desktop
+      };
+    }
+
     const mobile = desktop.replace(/-2000\.jpg$/, "-1200.jpg");
 
     return {

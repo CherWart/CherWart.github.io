@@ -8,7 +8,7 @@ window.CHER_WANG_ARTWORKS = [
     "dimensions": "40 × 50 cm",
     "series": "万物存域 / Realm of Coexistence",
     "category": "oil",
-    "image": "assets/images/artworks-web/artworks/oil-painting/oil-013-2000.jpg",
+    "image": "assets/images/artworks/oil-painting/TwoTwo-2000.jpg",
     "keywords": "中文：动物、宠物、狗、陪伴、生命、肖像、共生English: Animal, Dog, Pet, Companion, Life, Portrait, Coexistence",
     "statementZh": "《Two Two》描绘了一只静静凝视观者的小狗肖像。作品并未将动物作为陪衬，而是赋予其独立的生命主体地位。柔和而富有层次的笔触塑造出毛发的质感与温度，平静的眼神与微微倾斜的姿态传递出信任、陪伴与情感交流。作品试图通过一个具体生命的存在，呈现人与动物共享世界、彼此回应的共生关系。",
     "statementEn": "Two Two portrays a dog gazing quietly toward the viewer. Rather than serving as a companion object, the animal is presented as an independent living presence. Layered brushwork captures the warmth and texture of its coat, while its calm expression conveys trust, companionship, and emotional connection. The painting reflects the coexistence between humans and animals through the individuality of a single life.",
@@ -155,7 +155,7 @@ window.CHER_WANG_ARTWORKS = [
     "dimensions": "75 × 90 cm",
     "series": "光与生命 / Light and Life",
     "category": "oil",
-    "image": "assets/images/artworks-web/artworks/oil-painting/oil-009-2000.jpg",
+    "image": "assets/images/artworks/oil-painting/自画像-2000.jpg",
     "keywords": "中文：自画像、人物、现代绘画、身份、光、精神English: Self-Portrait, Figure, Modern Painting, Identity, Light, Spirit",
     "statementZh": "《自画像》创作于2005年，以高度概括和平面化的造型语言呈现艺术家对自我身份的思考。人物形象被简化为几何结构与色块关系，保留最具辨识度的轮廓和神态，在克制的构图中呈现内在精神世界。作品弱化写实再现，更关注自我意识、观看与存在之间的关系，体现了艺术家早期对现代绘画语言的探索。",
     "statementEn": "Created in 2005, Self-Portrait reflects the artist's exploration of identity through a simplified and geometric visual language. Reduced forms, flat color fields, and restrained composition shift the focus from physical likeness to inner presence. The work marks an early investigation into modern pictorial language and the relationship between perception, self-awareness, and existence.",
@@ -197,7 +197,7 @@ window.CHER_WANG_ARTWORKS = [
     "dimensions": "75 × 90 cm",
     "series": "光与生命 / Light and Life",
     "category": "oil",
-    "image": "assets/images/artworks-web/artworks/oil-painting/oil-008-2000.jpg",
+    "image": "assets/images/artworks/oil-painting/荷塘-2000.jpg",
     "keywords": "中文：荷塘、抽象、光、宁静、自然、生命English: Lotus Pond, Abstraction, Light, Tranquility, Nature, Life",
     "statementZh": "《荷塘》创作于2006年，以近乎抽象的语言描绘荷塘意境。作品舍弃了对荷叶、花朵的具象刻画，而以柔和的灰白、浅蓝与米黄色层层交融，营造出水面、雾气与光线彼此渗透的空间。画面中少量鲜艳的朱红色点缀，如同生命在静谧之中悄然萌发，使作品在宁静与流动之间形成富有诗意的生命体验。",
     "statementEn": "Created in 2006, Lotus Pond explores the poetic atmosphere of a lotus pond through an abstract visual language. Soft whites, pale blues, and warm earth tones merge into a tranquil field where water, mist, and light dissolve into one another. Small accents of vivid red suggest the quiet emergence of life, transforming the landscape into a meditation on light, time, and renewal.",
@@ -1407,7 +1407,6 @@ window.CHER_WANG_ARTWORKS = [
     "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-P-042_绿风酸甜_Artwork.docx"
   }
 ];
-
 
 
 
