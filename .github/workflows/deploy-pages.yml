@@ -33,6 +33,7 @@ jobs:
           cp index.html README.md _site/
           cp -R assets/css _site/assets/
           cp -R assets/js _site/assets/
+          cp -R assets/images/artworks _site/assets/images/
           cp -R assets/images/artworks-web _site/assets/images/
           cp -R assets/images/portraits _site/assets/images/
           cp -R assets/images/publications _site/assets/images/
