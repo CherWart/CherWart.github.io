@@ -349,11 +349,7 @@
   }
 
   function openLightbox(artwork) {
-    const image = responsiveArtworkImage(artwork.image);
-
     lightboxImage.src = artwork.image;
-    lightboxImage.srcset = image.fullSrcset;
-    lightboxImage.sizes = "100vw";
     lightboxImage.width = imageDimensions(artwork.image).width;
     lightboxImage.height = imageDimensions(artwork.image).height;
     lightboxImage.alt = `${artwork.titleEn} / ${artwork.titleZh}`;
@@ -389,8 +385,6 @@
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.removeAttribute("src");
-    lightboxImage.removeAttribute("srcset");
-    lightboxImage.removeAttribute("sizes");
     lightboxImage.removeAttribute("width");
     lightboxImage.removeAttribute("height");
     lightboxRecord.innerHTML = "";
