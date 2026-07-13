@@ -390,6 +390,21 @@ h3 {
   gap: 16px;
 }
 
+.portfolio-grid.is-featured {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.portfolio-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.portfolio-actions .button[hidden],
+.filter-bar[hidden] {
+  display: none;
+}
+
 .art-card,
 .publication-card {
   background: var(--surface);
@@ -854,6 +869,10 @@ body[data-lang="both"] .footer-inner [data-i18n="zh"]::before {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .portfolio-grid.is-featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .art-card img {
     height: 200px;
   }
@@ -948,6 +967,10 @@ body[data-lang="both"] .footer-inner [data-i18n="zh"]::before {
   .portfolio-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+  }
+
+  .portfolio-grid.is-featured {
+    grid-template-columns: 1fr;
   }
 
   .art-card img {

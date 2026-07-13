@@ -28,7 +28,7 @@
     "sameAs": []
   }
   </script>
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260713-legal-pages">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260713-progressive-portfolio">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -145,11 +145,11 @@
           <div>
             <p class="section-kicker">Portfolio</p>
             <h2>
-              <span data-i18n="en">Selected Works</span>
-              <span data-i18n="zh">精选作品</span>
+              <span data-i18n="en" data-portfolio-title-en>Selected Works</span>
+              <span data-i18n="zh" data-portfolio-title-zh>精选作品</span>
             </h2>
           </div>
-          <div class="filter-bar" aria-label="Filter portfolio by medium">
+          <div class="filter-bar" data-portfolio-filters aria-label="Filter portfolio by medium" hidden>
             <button class="is-active" type="button" data-filter="all"><span data-i18n="en">All</span><span data-i18n="zh">全部</span></button>
             <button type="button" data-filter="watercolor"><span data-i18n="en">Watercolor</span><span data-i18n="zh">水彩</span></button>
             <button type="button" data-filter="oil"><span data-i18n="en">Oil Painting</span><span data-i18n="zh">油画</span></button>
@@ -157,6 +157,16 @@
           </div>
         </div>
         <div class="portfolio-grid" data-gallery></div>
+        <div class="portfolio-actions">
+          <button class="button secondary" type="button" data-view-full-portfolio>
+            <span data-i18n="en">View Full Portfolio</span>
+            <span data-i18n="zh">查看全部作品</span>
+          </button>
+          <button class="button secondary" type="button" data-load-more hidden>
+            <span data-i18n="en">Load More</span>
+            <span data-i18n="zh">加载更多</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -257,7 +267,7 @@
   <script src="data/artworks.js?v=20260703-name-protection"></script>
   <script src="data/exhibitions.js?v=20260628-final-audit"></script>
   <script src="data/publications.js?v=20260703-name-protection"></script>
-  <script src="assets/js/main.js?v=20260713-lightbox-image"></script>
+  <script src="assets/js/main.js?v=20260713-progressive-portfolio"></script>
   <script defer src="data/analytics-config.js"></script>
   <script defer src="assets/js/analytics.js"></script>
 </body>

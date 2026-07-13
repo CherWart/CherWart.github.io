@@ -7,6 +7,11 @@
   const exhibitionsTarget = document.querySelector("[data-exhibitions]");
   const publicationsTarget = document.querySelector("[data-publications]");
   const filterButtons = document.querySelectorAll("[data-filter]");
+  const portfolioFilters = document.querySelector("[data-portfolio-filters]");
+  const viewFullPortfolio = document.querySelector("[data-view-full-portfolio]");
+  const loadMore = document.querySelector("[data-load-more]");
+  const portfolioTitleEn = document.querySelector("[data-portfolio-title-en]");
+  const portfolioTitleZh = document.querySelector("[data-portfolio-title-zh]");
   const yearTarget = document.querySelector("[data-year]");
   const lightbox = document.querySelector("[data-lightbox]");
   const lightboxImage = document.querySelector("[data-lightbox-image]");
@@ -14,7 +19,22 @@
   const lightboxRecord = document.querySelector("[data-lightbox-record]");
   const lightboxClose = document.querySelector("[data-lightbox-close]");
 
+  const featuredArtworkIds = [
+    "KXW-O-060",
+    "KXW-W-058",
+    "KXW-W-065",
+    "KXW-O-062",
+    "KXW-P-066",
+    "KXW-O-063",
+    "KXW-O-059",
+    "KXW-W-066",
+    "KXW-O-067"
+  ];
+  const portfolioBatchSize = 12;
+
+  let portfolioMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
   let currentFilter = "all";
+  let visibleArtworkCount = portfolioBatchSize;
 
   body.dataset.lang = "both";
   if (yearTarget) {
@@ -250,26 +270,24 @@
     `;
   }
 
-  function renderGallery() {
-    const artworks = window.CHER_WANG_ARTWORKS || [];
-    const filtered = currentFilter === "all"
-      ? artworks
-      : artworks.filter((artwork) => artwork.category === currentFilter);
+  function artworkCardMarkup(artwork, artworks, index) {
+    const image = responsiveArtworkImage(artwork.image);
+    const isPriorityImage = portfolioMode === "featured" && index < 3;
+    const sizes = portfolioMode === "featured"
+      ? "(min-width: 981px) 33vw, (min-width: 681px) 50vw, 100vw"
+      : "(min-width: 981px) 25vw, (min-width: 681px) 33vw, 50vw";
 
-    gallery.innerHTML = filtered.map((artwork, index) => {
-      const image = responsiveArtworkImage(artwork.image);
-
-      return `
+    return `
       <button class="art-card" type="button" data-art-index="${artworks.indexOf(artwork)}">
         <img
           src="${escapeHtml(image.src)}"
           srcset="${escapeHtml(image.srcset)}"
-          sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
+          sizes="${sizes}"
           width="${image.width}"
           height="${image.height}"
           alt="${escapeHtml(artwork.titleEn)} / ${escapeHtml(artwork.titleZh)}"
           loading="lazy"
-          fetchpriority="low"
+          fetchpriority="${isPriorityImage ? "high" : "low"}"
           decoding="async">
         <div class="art-card-body">
           <h3>
@@ -282,14 +300,38 @@
         </div>
       </button>
     `;
-    }).join("");
+  }
 
-    gallery.querySelectorAll("[data-art-index]").forEach((card) => {
-      card.addEventListener("click", () => {
-        const artwork = artworks[Number(card.dataset.artIndex)];
-        openLightbox(artwork);
-      });
-    });
+  function filteredArtworks(artworks) {
+    return currentFilter === "all"
+      ? artworks
+      : artworks.filter((artwork) => artwork.category === currentFilter);
+  }
+
+  function featuredArtworks(artworks) {
+    const artworksById = new Map(artworks.map((artwork) => [artwork.artworkId, artwork]));
+    return featuredArtworkIds.map((id) => artworksById.get(id)).filter(Boolean);
+  }
+
+  function renderGallery() {
+    const artworks = window.CHER_WANG_ARTWORKS || [];
+    const availableArtworks = portfolioMode === "featured"
+      ? featuredArtworks(artworks)
+      : filteredArtworks(artworks);
+    const visibleArtworks = portfolioMode === "featured"
+      ? availableArtworks
+      : availableArtworks.slice(0, visibleArtworkCount);
+
+    gallery.classList.toggle("is-featured", portfolioMode === "featured");
+    gallery.innerHTML = visibleArtworks
+      .map((artwork, index) => artworkCardMarkup(artwork, artworks, index))
+      .join("");
+
+    portfolioFilters.hidden = portfolioMode === "featured";
+    viewFullPortfolio.hidden = portfolioMode !== "featured";
+    loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
+    portfolioTitleEn.textContent = portfolioMode === "featured" ? "Selected Works" : "Full Portfolio";
+    portfolioTitleZh.textContent = portfolioMode === "featured" ? "精选作品" : "全部作品";
   }
 
   function renderExhibitions() {
@@ -391,6 +433,34 @@
     body.style.overflow = "";
   }
 
+  function resetPortfolioFilter() {
+    currentFilter = "all";
+    filterButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.filter === "all");
+    });
+  }
+
+  function setPortfolioMode(mode) {
+    portfolioMode = mode;
+    visibleArtworkCount = portfolioBatchSize;
+    resetPortfolioFilter();
+    renderGallery();
+  }
+
+  function syncPortfolioModeFromLocation() {
+    const nextMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
+
+    if (nextMode === portfolioMode) {
+      return;
+    }
+
+    if (lightbox.classList.contains("is-open")) {
+      closeLightbox();
+    }
+
+    setPortfolioMode(nextMode);
+  }
+
   langButtons.forEach((button) => {
     button.addEventListener("click", () => {
       body.dataset.lang = button.dataset.langButton;
@@ -401,10 +471,40 @@
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       currentFilter = button.dataset.filter;
+      visibleArtworkCount = portfolioBatchSize;
       filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
       renderGallery();
     });
   });
+
+  gallery.addEventListener("click", (event) => {
+    const card = event.target.closest("[data-art-index]");
+
+    if (!card || !gallery.contains(card)) {
+      return;
+    }
+
+    const artworks = window.CHER_WANG_ARTWORKS || [];
+    const artwork = artworks[Number(card.dataset.artIndex)];
+
+    if (artwork) {
+      openLightbox(artwork);
+    }
+  });
+
+  viewFullPortfolio.addEventListener("click", () => {
+    window.history.pushState({ portfolioMode: "full" }, "", "#full-portfolio");
+    setPortfolioMode("full");
+    document.querySelector("#portfolio").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  loadMore.addEventListener("click", () => {
+    visibleArtworkCount += portfolioBatchSize;
+    renderGallery();
+  });
+
+  window.addEventListener("popstate", syncPortfolioModeFromLocation);
+  window.addEventListener("hashchange", syncPortfolioModeFromLocation);
 
   if (navToggle) {
     navToggle.addEventListener("click", () => {
