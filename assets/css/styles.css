@@ -357,6 +357,25 @@ h3 {
   line-height: 1.78;
 }
 
+.about-summary p {
+  margin-bottom: 0;
+  font-size: 18px;
+  line-height: 1.78;
+}
+
+.section-toggle {
+  margin-top: 24px;
+}
+
+.expandable-content {
+  margin-top: 34px;
+}
+
+.expandable-content[hidden],
+.section-toggle [hidden] {
+  display: none;
+}
+
 .about-highlights {
   display: grid;
   gap: 34px;
@@ -485,6 +504,14 @@ h3 {
 .timeline {
   display: grid;
   gap: 34px;
+}
+
+.records-summary {
+  border-top: 1px solid rgba(39, 49, 47, 0.24);
+}
+
+.selected-record .cv-title {
+  margin: 0;
 }
 
 .cv-group {

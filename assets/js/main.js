@@ -17,6 +17,7 @@
   const lightboxCaption = document.querySelector("[data-lightbox-caption]");
   const lightboxRecord = document.querySelector("[data-lightbox-record]");
   const lightboxClose = document.querySelector("[data-lightbox-close]");
+  const expandToggleButtons = document.querySelectorAll("[data-expand-toggle]");
 
   const featuredArtworkIds = [
     "KXW-W-022",
@@ -608,6 +609,61 @@
     setPortfolioMode(nextMode);
   }
 
+  function updateExpandToggle(button, expanded) {
+    button.setAttribute("aria-expanded", String(expanded));
+    button.querySelectorAll("[data-expand-open]").forEach((label) => {
+      label.hidden = expanded;
+    });
+    button.querySelectorAll("[data-expand-close]").forEach((label) => {
+      label.hidden = !expanded;
+    });
+  }
+
+  function setExpandableState(button, expanded) {
+    const content = document.getElementById(button.getAttribute("aria-controls"));
+    if (!content) {
+      return;
+    }
+
+    if (button.expandAnimation) {
+      button.expandAnimation.cancel();
+    }
+
+    updateExpandToggle(button, expanded);
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion || typeof content.animate !== "function") {
+      content.hidden = !expanded;
+      return;
+    }
+
+    if (expanded) {
+      content.hidden = false;
+    }
+
+    const startHeight = expanded ? 0 : content.getBoundingClientRect().height;
+    const endHeight = expanded ? content.scrollHeight : 0;
+    content.style.overflow = "hidden";
+    const animation = content.animate([
+      { height: `${startHeight}px`, opacity: expanded ? 0 : 1 },
+      { height: `${endHeight}px`, opacity: expanded ? 1 : 0 }
+    ], {
+      duration: 260,
+      easing: "ease",
+      fill: "both"
+    });
+    button.expandAnimation = animation;
+
+    animation.addEventListener("finish", () => {
+      if (button.getAttribute("aria-expanded") === "false") {
+        content.hidden = true;
+      }
+      content.style.removeProperty("overflow");
+      button.expandAnimation = null;
+      animation.cancel();
+    }, { once: true });
+  }
+
   window.addEventListener("site-language-change", () => {
     renderGallery();
     renderExhibitions();
@@ -655,6 +711,13 @@
 
   window.addEventListener("popstate", syncPortfolioModeFromLocation);
   window.addEventListener("hashchange", syncPortfolioModeFromLocation);
+
+  expandToggleButtons.forEach((button) => {
+    updateExpandToggle(button, false);
+    button.addEventListener("click", () => {
+      setExpandableState(button, button.getAttribute("aria-expanded") !== "true");
+    });
+  });
 
   if (navToggle) {
     navToggle.addEventListener("click", () => {
