@@ -2,7 +2,6 @@
   const body = document.body;
   const navToggle = document.querySelector("[data-nav-toggle]");
   const nav = document.querySelector("[data-nav]");
-  const langButtons = document.querySelectorAll("[data-lang-button]");
   const gallery = document.querySelector("[data-gallery]");
   const exhibitionsTarget = document.querySelector("[data-exhibitions]");
   const publicationsTarget = document.querySelector("[data-publications]");
@@ -12,7 +11,7 @@
   const loadMore = document.querySelector("[data-load-more]");
   const portfolioTitleEn = document.querySelector("[data-portfolio-title-en]");
   const portfolioTitleZh = document.querySelector("[data-portfolio-title-zh]");
-  const yearTarget = document.querySelector("[data-year]");
+  const yearTargets = document.querySelectorAll("[data-year]");
   const lightbox = document.querySelector("[data-lightbox]");
   const lightboxImage = document.querySelector("[data-lightbox-image]");
   const lightboxCaption = document.querySelector("[data-lightbox-caption]");
@@ -35,11 +34,11 @@
   let portfolioMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
   let currentFilter = "all";
   let visibleArtworkCount = portfolioBatchSize;
+  let activeArtwork = null;
 
-  body.dataset.lang = "both";
-  if (yearTarget) {
-    yearTarget.textContent = new Date().getFullYear();
-  }
+  yearTargets.forEach((target) => {
+    target.textContent = new Date().getFullYear();
+  });
 
   function escapeHtml(value) {
     return String(value)
@@ -94,6 +93,119 @@
 
   function joinParts(parts) {
     return protectNamesInHtml(parts.filter(Boolean).map(escapeHtml).join(" · "));
+  }
+
+  function currentLanguage() {
+    return window.CHER_WANG_LANGUAGE ? window.CHER_WANG_LANGUAGE.get() : "en";
+  }
+
+  function containsChinese(value) {
+    return /[\u3400-\u9fff]/.test(String(value || ""));
+  }
+
+  function localizedArtworkValue(value) {
+    const language = currentLanguage();
+    const text = String(value || "").trim();
+
+    if (!text) {
+      return "";
+    }
+
+    const translations = {
+      "Watercolor on Paper": "纸本水彩",
+      "Oil on Canvas": "布面油画",
+      "Black-and-White Woodcut": "黑白木刻",
+      "Black-and-white Woodcut Print": "黑白木刻",
+      "Gouache on Paper": "纸本水粉",
+      "Pastel on Paper": "纸本色粉",
+      "Year": "年代",
+      "Medium": "媒介",
+      "Series": "系列",
+      "Size": "尺寸"
+    };
+
+    const parenthetical = text.match(/^(.+?)(?:（([^）]+)）|\(([^)]+)\))$/);
+    const parentheticalTranslation = parenthetical && (parenthetical[2] || parenthetical[3]);
+    if (parenthetical && containsChinese(parentheticalTranslation)) {
+      return language === "zh" ? parentheticalTranslation : parenthetical[1].trim();
+    }
+
+    const parts = text.split(/\s+\/\s+/).map((part) => part.trim()).filter(Boolean);
+    if (parts.length > 1) {
+      const matchingPart = parts.find((part) => language === "zh" ? containsChinese(part) : !containsChinese(part));
+      if (matchingPart) {
+        return matchingPart;
+      }
+    }
+
+    if (language === "zh" && translations[text]) {
+      return translations[text];
+    }
+
+    if (language === "en") {
+      const english = Object.keys(translations).find((key) => translations[key] === text);
+      if (english) {
+        return english;
+      }
+    }
+
+    return text;
+  }
+
+  function localizedArtworkTitle(artwork) {
+    const title = currentLanguage() === "zh" ? artwork.titleZh : artwork.titleEn;
+
+    if (currentLanguage() === "en") {
+      return String(title || "").replace(/（[^）]*[\u3400-\u9fff][^）]*）/g, "").trim();
+    }
+
+    return String(title || "");
+  }
+
+  function localizedTaggedText(value) {
+    const language = currentLanguage();
+    const text = String(value || "").trim();
+
+    if (!text) {
+      return "";
+    }
+
+    const markers = [
+      { language: "zh", match: /(?:中文|CN)[：:]\s*/g },
+      { language: "en", match: /(?:English|EN)[：:]\s*/g }
+    ];
+    const positions = [];
+
+    markers.forEach((marker) => {
+      marker.match.lastIndex = 0;
+      let result = marker.match.exec(text);
+      while (result) {
+        positions.push({ language: marker.language, start: result.index, contentStart: marker.match.lastIndex });
+        result = marker.match.exec(text);
+      }
+    });
+
+    positions.sort((a, b) => a.start - b.start);
+    const selected = positions.find((position) => position.language === language);
+    if (selected) {
+      const selectedIndex = positions.indexOf(selected);
+      const next = positions[selectedIndex + 1];
+      return text.slice(selected.contentStart, next ? next.start : text.length).trim();
+    }
+
+    if (language === "en" && containsChinese(text)) {
+      return "";
+    }
+
+    if (language === "zh" && !containsChinese(text)) {
+      return "";
+    }
+
+    return text;
+  }
+
+  function localizedJoinParts(parts) {
+    return joinParts(parts.map(localizedArtworkValue));
   }
 
   const ARTWORK_IMAGE_DIMENSIONS = {
@@ -262,9 +374,11 @@
       return "";
     }
 
+    const label = currentLanguage() === "zh" ? labelZh : labelEn;
+
     return `
       <section class="record-section">
-        <h4><span data-i18n="en">${escapeHtml(labelEn)}</span><span data-i18n="zh">${escapeHtml(labelZh)}</span></h4>
+        <h4>${escapeHtml(label)}</h4>
         <p>${protectNamesInHtml(escapeHtml(value).replace(/\n/g, "<br>"))}</p>
       </section>
     `;
@@ -272,6 +386,7 @@
 
   function artworkCardMarkup(artwork, artworks, index) {
     const image = responsiveArtworkImage(artwork.image);
+    const title = localizedArtworkTitle(artwork);
     const isPriorityImage = portfolioMode === "featured" && index < 3;
     const sizes = portfolioMode === "featured"
       ? "(min-width: 981px) 33vw, (min-width: 681px) 50vw, 100vw"
@@ -285,17 +400,15 @@
           sizes="${sizes}"
           width="${image.width}"
           height="${image.height}"
-          alt="${escapeHtml(artwork.titleEn)} / ${escapeHtml(artwork.titleZh)}"
+          alt="${escapeHtml(title)}"
           loading="lazy"
           fetchpriority="${isPriorityImage ? "high" : "low"}"
           decoding="async">
         <div class="art-card-body">
-          <h3>
-            ${bilingualText(artwork.titleEn, artwork.titleZh)}
-          </h3>
-          <p class="meta-line">${joinParts([artwork.year, artwork.medium])}</p>
+          <h3>${protectedHtml(title)}</h3>
+          <p class="meta-line">${localizedJoinParts([artwork.year, artwork.medium])}</p>
           <p class="meta-line">
-            ${joinParts([artwork.dimensions, artwork.series])}
+            ${localizedJoinParts([artwork.dimensions, artwork.series])}
           </p>
         </div>
       </button>
@@ -373,9 +486,10 @@
 
   function renderPublications() {
     const publications = window.CHER_WANG_PUBLICATIONS || [];
+    const language = currentLanguage();
     publicationsTarget.innerHTML = publications.map((item) => `
       <article class="publication-card">
-        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.titleEn)} cover">
+        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(language === "zh" ? item.titleZh : `${item.titleEn} cover`)}">
         <div class="publication-card-body">
           <h3>
             ${bilingualText(item.titleEn, item.titleZh)}
@@ -390,34 +504,66 @@
     `).join("");
   }
 
-  function openLightbox(artwork) {
-    lightboxImage.src = artwork.image;
-    lightboxImage.width = imageDimensions(artwork.image).width;
-    lightboxImage.height = imageDimensions(artwork.image).height;
-    lightboxImage.alt = `${artwork.titleEn} / ${artwork.titleZh}`;
-    const meta = joinParts([artwork.year, artwork.medium]);
+  function localizedRecordText(artwork) {
+    const language = currentLanguage();
+    const labels = language === "zh"
+      ? { heading: "作品档案", id: "作品编号", title: "作品名称", year: "年代", medium: "媒介", dimensions: "尺寸", series: "系列" }
+      : { heading: "Artwork Record", id: "Artwork ID", title: "Title", year: "Year", medium: "Medium", dimensions: "Dimensions", series: "Series" };
+    const title = localizedArtworkTitle(artwork);
+
+    return [
+      labels.heading,
+      `${labels.id}: ${artwork.artworkId || ""}`,
+      `${labels.title}: ${title || ""}`,
+      `${labels.year}: ${localizedArtworkValue(artwork.year)}`,
+      `${labels.medium}: ${localizedArtworkValue(artwork.medium)}`,
+      `${labels.dimensions}: ${localizedArtworkValue(artwork.dimensions)}`,
+      `${labels.series}: ${localizedArtworkValue(artwork.series)}`
+    ].join("\n");
+  }
+
+  function renderLightboxContent(artwork) {
+    const language = currentLanguage();
+    const title = localizedArtworkTitle(artwork);
+    const meta = localizedJoinParts([artwork.year, artwork.medium]);
+    const statement = language === "zh"
+      ? String(artwork.statementZh || "")
+      : String(artwork.statementEn || "").split(/\n[一二三四五六七八九十]+、/)[0].trim();
+    const keywords = localizedTaggedText(artwork.keywords);
+    const exhibitionHistory = localizedTaggedText(artwork.exhibitionHistory);
+    const awards = localizedTaggedText(artwork.awards);
+    const collection = localizedTaggedText(artwork.collection);
+    const publication = localizedTaggedText(artwork.publication);
+
+    lightboxImage.alt = title || "";
     lightboxCaption.innerHTML = `
-      <span>${protectedHtml(artwork.titleEn)}<br>${meta}</span>
-      <span>${protectedHtml(artwork.titleZh)}<br>${meta}</span>
+      <span>${protectedHtml(title)}<br>${meta}</span>
     `;
     lightboxRecord.innerHTML = `
       <div class="record-head">
         <p class="record-id">${escapeHtml(artwork.artworkId || "")}</p>
-        <h3>${bilingualText(artwork.titleEn, artwork.titleZh)}</h3>
-        <p class="meta-line">${joinParts([artwork.year, artwork.medium, artwork.dimensions, artwork.series])}</p>
+        <h3>${protectedHtml(title)}</h3>
+        <p class="meta-line">${localizedJoinParts([artwork.year, artwork.medium, artwork.dimensions, artwork.series])}</p>
       </div>
-      ${recordBlock("Keywords", "关键词", artwork.keywords)}
-      ${recordBlock("Artwork Statement (Chinese)", "作品阐述（中文）", artwork.statementZh)}
-      ${recordBlock("Artwork Statement (English)", "作品阐述（英文）", artwork.statementEn)}
-      ${recordBlock("Exhibition History", "展览经历", artwork.exhibitionHistory)}
-      ${recordBlock("Awards", "荣誉", artwork.awards)}
-      ${recordBlock("Collection", "收藏", artwork.collection)}
-      ${recordBlock("Publication", "出版发表", artwork.publication)}
+      ${recordBlock("Keywords", "关键词", keywords)}
+      ${recordBlock("Artwork Statement", "作品阐述", statement)}
+      ${recordBlock("Exhibition History", "展览经历", exhibitionHistory)}
+      ${recordBlock("Awards", "荣誉", awards)}
+      ${recordBlock("Collection", "收藏", collection)}
+      ${recordBlock("Publication", "出版发表", publication)}
       <section class="record-section">
-        <h4><span data-i18n="en">Complete Artwork Record</span><span data-i18n="zh">完整作品档案</span></h4>
-        <pre>${protectNamesInHtml(escapeHtml(artwork.fullRecordText || ""))}</pre>
+        <h4>${language === "zh" ? "完整作品档案" : "Complete Artwork Record"}</h4>
+        <pre>${protectNamesInHtml(escapeHtml(localizedRecordText(artwork)))}</pre>
       </section>
     `;
+  }
+
+  function openLightbox(artwork) {
+    activeArtwork = artwork;
+    lightboxImage.src = artwork.image;
+    lightboxImage.width = imageDimensions(artwork.image).width;
+    lightboxImage.height = imageDimensions(artwork.image).height;
+    renderLightboxContent(artwork);
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     body.style.overflow = "hidden";
@@ -430,6 +576,7 @@
     lightboxImage.removeAttribute("width");
     lightboxImage.removeAttribute("height");
     lightboxRecord.innerHTML = "";
+    activeArtwork = null;
     body.style.overflow = "";
   }
 
@@ -461,11 +608,14 @@
     setPortfolioMode(nextMode);
   }
 
-  langButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      body.dataset.lang = button.dataset.langButton;
-      langButtons.forEach((item) => item.classList.toggle("is-active", item === button));
-    });
+  window.addEventListener("site-language-change", () => {
+    renderGallery();
+    renderExhibitions();
+    renderPublications();
+
+    if (activeArtwork && lightbox.classList.contains("is-open")) {
+      renderLightboxContent(activeArtwork);
+    }
   });
 
   filterButtons.forEach((button) => {
