@@ -316,7 +316,7 @@
   function renderGallery() {
     const artworks = window.CHER_WANG_ARTWORKS || [];
     const availableArtworks = portfolioMode === "featured"
-      ? featuredArtworks(artworks)
+      ? filteredArtworks(featuredArtworks(artworks))
       : filteredArtworks(artworks);
     const visibleArtworks = portfolioMode === "featured"
       ? availableArtworks
@@ -327,7 +327,7 @@
       .map((artwork, index) => artworkCardMarkup(artwork, artworks, index))
       .join("");
 
-    portfolioFilters.hidden = portfolioMode === "featured";
+    portfolioFilters.hidden = false;
     viewFullPortfolio.hidden = portfolioMode !== "featured";
     loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
     portfolioTitleEn.textContent = portfolioMode === "featured" ? "Selected Works" : "Full Portfolio";

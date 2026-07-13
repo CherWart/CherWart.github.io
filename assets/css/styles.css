@@ -394,9 +394,19 @@ h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.portfolio-head-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
 .portfolio-actions {
   display: flex;
   justify-content: center;
+}
+
+.portfolio-actions .button:not([hidden]) {
   margin-top: 32px;
 }
 
@@ -889,6 +899,11 @@ body[data-lang="both"] .footer-inner [data-i18n="zh"]::before {
   .section-head {
     align-items: start;
     flex-direction: column;
+  }
+
+  .portfolio-head-actions {
+    width: 100%;
+    align-items: flex-start;
   }
 }
 
