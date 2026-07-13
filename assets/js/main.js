@@ -20,15 +20,15 @@
   const lightboxClose = document.querySelector("[data-lightbox-close]");
 
   const featuredArtworkIds = [
-    "KXW-O-060",
-    "KXW-W-058",
-    "KXW-W-065",
-    "KXW-O-062",
-    "KXW-P-066",
-    "KXW-O-063",
-    "KXW-O-059",
-    "KXW-W-066",
-    "KXW-O-067"
+    "KXW-W-022",
+    "KXW-W-006",
+    "KXW-W-003",
+    "KXW-W-013",
+    "KXW-W-033",
+    "KXW-P-042",
+    "KXW-W-018",
+    "KXW-W-004",
+    "KXW-G-002"
   ];
   const portfolioBatchSize = 12;
 
