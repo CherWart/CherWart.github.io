@@ -52,15 +52,13 @@
 
   function protectedHtml(value) {
     return escapeHtml(value)
-      .replace(/Cher Wang/g, '<span translate="no" class="notranslate">Cher Wang</span>')
-      .replace(/WANG KAIXUAN/g, '<span translate="no" class="notranslate">WANG KAIXUAN</span>')
+      .replace(/Kaixuan Wang/g, '<span translate="no" class="notranslate">Kaixuan Wang</span>')
       .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
   }
 
   function protectNamesInHtml(value) {
     return String(value)
-      .replace(/Cher Wang/g, '<span translate="no" class="notranslate">Cher Wang</span>')
-      .replace(/WANG KAIXUAN/g, '<span translate="no" class="notranslate">WANG KAIXUAN</span>')
+      .replace(/Kaixuan Wang/g, '<span translate="no" class="notranslate">Kaixuan Wang</span>')
       .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
   }
 

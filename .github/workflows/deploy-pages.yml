@@ -28,16 +28,20 @@ jobs:
       - name: Build static site artifact
         run: |
           set -euo pipefail
-          mkdir -p _site/assets/images _site/data
+          mkdir -p _site/assets/images _site/data _site/tools
 
-          cp index.html privacy.html terms.html copyright.html disclaimer.html contact.html README.md _site/
+          cp index.html privacy.html terms.html copyright.html disclaimer.html contact.html README.md robots.txt sitemap.xml _site/
           cp -R assets/css _site/assets/
           cp -R assets/js _site/assets/
           cp -R assets/images/artworks _site/assets/images/
           cp -R assets/images/artworks-web _site/assets/images/
           cp -R assets/images/portraits _site/assets/images/
           cp -R assets/images/publications _site/assets/images/
-          cp data/artworks.js data/exhibitions.js data/publications.js _site/data/
+          cp -R preview _site/preview
+          cp data/artworks.js data/exhibitions.js data/publications.js data/analytics-config.js data/site-config.json _site/data/
+          cp tools/build-seo.mjs tools/validate-seo.mjs _site/tools/
+          node _site/tools/build-seo.mjs _site
+          node _site/tools/validate-seo.mjs _site
           touch _site/.nojekyll
 
       - name: Upload artifact

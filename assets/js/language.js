@@ -70,13 +70,13 @@
 
   function isolateArtistNames(root) {
     Array.from(root.childNodes).forEach((node) => {
-      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.includes("Cher Wang / 王凯萱")) {
-        const fragments = node.nodeValue.split("Cher Wang / 王凯萱");
+      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.includes("KAIXUAN WANG / 王凯萱")) {
+        const fragments = node.nodeValue.split("KAIXUAN WANG / 王凯萱");
         const replacement = document.createDocumentFragment();
 
         fragments.forEach((fragment, index) => {
           if (index > 0) {
-            replacement.appendChild(languageSpan("en", "Cher Wang"));
+            replacement.appendChild(languageSpan("en", "KAIXUAN WANG"));
             replacement.appendChild(languageSpan("zh", "王凯萱"));
           }
           replacement.appendChild(document.createTextNode(fragment));
@@ -131,7 +131,7 @@
     const brandSubname = document.querySelector(".brand-subname");
     const brand = document.querySelector(".brand");
     if (brand) {
-      brand.dataset.labelEn = "Cher Wang home";
+      brand.dataset.labelEn = "KAIXUAN WANG home";
       brand.dataset.labelZh = "王凯萱主页";
     }
     if (brandName) {

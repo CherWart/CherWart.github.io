@@ -21,6 +21,12 @@
       return;
     }
 
+    if (window.__CHER_WANG_GA4_LOADED__) {
+      return;
+    }
+
+    window.__CHER_WANG_GA4_LOADED__ = true;
+
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () {
       window.dataLayer.push(arguments);
@@ -29,6 +35,7 @@
     window.gtag("config", measurementId);
 
     const script = document.createElement("script");
+    script.id = "kaixuan-wang-ga4";
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
     document.head.appendChild(script);
