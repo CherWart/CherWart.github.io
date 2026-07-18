@@ -15,7 +15,10 @@ function walk(directory) {
   });
 }
 
-const htmlFiles = walk(root).filter((file) => file.endsWith(".html")).sort();
+const htmlFiles = walk(root)
+  .filter((file) => file.endsWith(".html"))
+  .filter((file) => !/^google[a-z0-9]+\.html$/i.test(path.basename(file)))
+  .sort();
 const expectedUrls = htmlFiles.map((file) => {
   const relative = path.relative(root, file).split(path.sep).join("/");
   return relative === "index.html" ? `${siteUrl}/` : `${siteUrl}/${relative}`;
