@@ -488,12 +488,12 @@
     const language = currentLanguage();
     publicationsTarget.innerHTML = publications.map((item) => `
       <article class="publication-card">
-        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(language === "zh" ? item.titleZh : `${item.titleEn} cover`)}">
+        <img src="${escapeHtml(item.image)}" width="1625" height="2050" loading="lazy" alt="${escapeHtml(item.alt || (language === "zh" ? item.titleZh : `${item.titleEn} cover`))}">
         <div class="publication-card-body">
           <h3>
             ${bilingualText(item.titleEn, item.titleZh)}
           </h3>
-          <p class="meta-line">${escapeHtml(item.year)}</p>
+          ${item.year ? `<p class="meta-line">${escapeHtml(item.year)}</p>` : ""}
           <p class="meta-line">
             <span data-i18n="en">${protectedHtml(item.typeEn)}</span>
             <span data-i18n="zh">${protectedHtml(item.typeZh)}</span>

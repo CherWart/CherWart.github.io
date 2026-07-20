@@ -580,8 +580,138 @@ h3 {
 .publication-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f0ebe3;
   border-right: 1px solid var(--line);
+}
+
+.books-hero {
+  border-bottom: 1px solid var(--line);
+}
+
+.books-hero h1 {
+  font-size: clamp(46px, 6vw, 76px);
+}
+
+.books-hero p:last-child {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.books-list {
+  display: flex;
+  flex-direction: column;
+}
+
+html[data-lang="en"] .book-edition--english,
+html[data-lang="zh"] .book-edition--chinese {
+  order: 1;
+}
+
+html[data-lang="en"] .book-edition--chinese,
+html[data-lang="zh"] .book-edition--english {
+  order: 2;
+}
+
+.book-edition--writing {
+  order: 3;
+}
+
+.book-edition-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(48px, 8vw, 112px);
+  align-items: center;
+}
+
+.book-cover {
+  width: min(100%, 420px);
+  margin: 0 auto;
+}
+
+.book-cover img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.book-copy {
+  max-width: 650px;
+}
+
+.book-copy h2 {
+  margin-bottom: 6px;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.08;
+}
+
+.book-copy p {
+  margin: 0 0 18px;
+}
+
+.book-edition-label,
+.book-status {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-edition-label {
+  margin-bottom: 12px !important;
+}
+
+.book-subtitle {
+  color: var(--muted);
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 20px;
+}
+
+.book-status {
+  margin: 26px 0 18px !important;
+}
+
+.book-sample-link {
+  margin-top: 12px;
+}
+
+.book-sample-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.book-release-note,
+.book-rights {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.book-release-note {
+  margin-top: 18px !important;
+}
+
+.book-rights {
+  margin-top: 28px !important;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.book-placeholder {
+  display: grid;
+  width: min(100%, 420px);
+  aspect-ratio: 585 / 738;
+  margin: 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: #ede4d8;
+  color: var(--muted);
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
 }
 
 .contact {
@@ -884,8 +1014,23 @@ html[data-lang="zh"] [data-i18n="en"] {
 
   .hero-grid,
   .two-column,
-  .contact-grid {
+  .contact-grid,
+  .book-edition-grid {
     grid-template-columns: 1fr;
+  }
+
+  .book-edition-grid {
+    gap: 46px;
+  }
+
+  .book-cover,
+  .book-placeholder {
+    width: min(100%, 380px);
+  }
+
+  .book-copy {
+    max-width: 720px;
+    margin: 0 auto;
   }
 
   .hero {
@@ -971,6 +1116,22 @@ html[data-lang="zh"] [data-i18n="en"] {
 
   h2 {
     font-size: 31px;
+  }
+
+  .books-hero p:last-child {
+    font-size: 16px;
+  }
+
+  .book-edition-grid {
+    gap: 34px;
+  }
+
+  .book-copy h2 {
+    font-size: 32px;
+  }
+
+  .book-subtitle {
+    font-size: 18px;
   }
 
   .hero-lede {

@@ -30,9 +30,10 @@ jobs:
           set -euo pipefail
           mkdir -p _site/assets/images _site/data _site/tools
 
-          cp index.html privacy.html terms.html copyright.html disclaimer.html contact.html google22e8f274ef3a97a5.html README.md robots.txt sitemap.xml _site/
+          cp index.html books.html privacy.html terms.html copyright.html disclaimer.html contact.html google22e8f274ef3a97a5.html README.md robots.txt sitemap.xml _site/
           cp -R assets/css _site/assets/
           cp -R assets/js _site/assets/
+          cp -R assets/books _site/assets/
           cp -R assets/images/artworks _site/assets/images/
           cp -R assets/images/artworks-web _site/assets/images/
           cp -R assets/images/portraits _site/assets/images/
