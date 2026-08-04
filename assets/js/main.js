@@ -52,13 +52,13 @@
 
   function protectedHtml(value) {
     return escapeHtml(value)
-      .replace(/Kaixuan Wang/g, '<span translate="no" class="notranslate">Kaixuan Wang</span>')
+      .replace(/KAIXUAN WANG/g, '<span translate="no" class="notranslate">KAIXUAN WANG</span>')
       .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
   }
 
   function protectNamesInHtml(value) {
     return String(value)
-      .replace(/Kaixuan Wang/g, '<span translate="no" class="notranslate">Kaixuan Wang</span>')
+      .replace(/KAIXUAN WANG/g, '<span translate="no" class="notranslate">KAIXUAN WANG</span>')
       .replace(/王凯萱/g, '<span translate="no" class="notranslate">王凯萱</span>');
   }
 
@@ -390,6 +390,8 @@
     const sizes = portfolioMode === "featured"
       ? "(min-width: 981px) 33vw, (min-width: 681px) 50vw, 100vw"
       : "(min-width: 981px) 25vw, (min-width: 681px) 33vw, 50vw";
+    const primaryMeta = localizedJoinParts([artwork.year, artwork.medium]);
+    const secondaryMeta = localizedJoinParts([artwork.dimensions, artwork.series]);
 
     return `
       <button class="art-card" type="button" data-art-index="${artworks.indexOf(artwork)}">
@@ -405,10 +407,8 @@
           decoding="async">
         <div class="art-card-body">
           <h3>${protectedHtml(title)}</h3>
-          <p class="meta-line">${localizedJoinParts([artwork.year, artwork.medium])}</p>
-          <p class="meta-line">
-            ${localizedJoinParts([artwork.dimensions, artwork.series])}
-          </p>
+          ${primaryMeta ? `<p class="meta-line">${primaryMeta}</p>` : ""}
+          ${secondaryMeta ? `<p class="meta-line">${secondaryMeta}</p>` : ""}
         </div>
       </button>
     `;
@@ -447,10 +447,10 @@
   }
 
   function renderExhibitions() {
-    const groups = window.CHER_WANG_EXHIBITIONS || [];
+    const groups = (window.CHER_WANG_EXHIBITIONS || []).filter((group) => (group.items || []).length);
     exhibitionsTarget.innerHTML = groups.map((group) => {
       const items = group.items || [];
-      const body = items.length ? items.map((item) => `
+      const body = items.map((item) => `
         <article class="cv-item">
           <div class="cv-year">${escapeHtml(item.year)}</div>
           <div>
@@ -464,12 +464,7 @@
             </p>
           </div>
         </article>
-      `).join("") : `
-        <p class="cv-empty">
-          <span data-i18n="en">Information to be added.</span>
-          <span data-i18n="zh">资料待补充。</span>
-        </p>
-      `;
+      `).join("");
 
       return `
         <section class="cv-group">
@@ -512,13 +507,12 @@
 
     return [
       labels.heading,
-      `${labels.id}: ${artwork.artworkId || ""}`,
       `${labels.title}: ${title || ""}`,
-      `${labels.year}: ${localizedArtworkValue(artwork.year)}`,
-      `${labels.medium}: ${localizedArtworkValue(artwork.medium)}`,
-      `${labels.dimensions}: ${localizedArtworkValue(artwork.dimensions)}`,
-      `${labels.series}: ${localizedArtworkValue(artwork.series)}`
-    ].join("\n");
+      artwork.year ? `${labels.year}: ${localizedArtworkValue(artwork.year)}` : "",
+      artwork.medium ? `${labels.medium}: ${localizedArtworkValue(artwork.medium)}` : "",
+      artwork.dimensions ? `${labels.dimensions}: ${localizedArtworkValue(artwork.dimensions)}` : "",
+      artwork.series ? `${labels.series}: ${localizedArtworkValue(artwork.series)}` : ""
+    ].filter(Boolean).join("\n");
   }
 
   function renderLightboxContent(artwork) {
@@ -533,6 +527,7 @@
     const awards = localizedTaggedText(artwork.awards);
     const collection = localizedTaggedText(artwork.collection);
     const publication = localizedTaggedText(artwork.publication);
+    const detailMeta = localizedJoinParts([artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
 
     lightboxImage.alt = title || "";
     lightboxCaption.innerHTML = `
@@ -540,9 +535,8 @@
     `;
     lightboxRecord.innerHTML = `
       <div class="record-head">
-        <p class="record-id">${escapeHtml(artwork.artworkId || "")}</p>
         <h3>${protectedHtml(title)}</h3>
-        <p class="meta-line">${localizedJoinParts([artwork.year, artwork.medium, artwork.dimensions, artwork.series])}</p>
+        ${detailMeta ? `<p class="meta-line">${detailMeta}</p>` : ""}
       </div>
       ${recordBlock("Keywords", "关键词", keywords)}
       ${recordBlock("Artwork Statement", "作品阐述", statement)}

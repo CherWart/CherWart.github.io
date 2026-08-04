@@ -108,7 +108,7 @@ window.CHER_WANG_EXHIBITIONS = [
       },
       {
         year: "2021",
-        titleEn: "Passionate Fishing Port selected for the Northwest Watercolor Society 81st International Exhibition",
+        titleEn: "Passion at The Fishing Port selected for the Northwest Watercolor Society 81st Annual International Open Exhibition",
         titleZh: "《热情渔港》入选美国西北水彩画协会第81届国际公开年度展",
         locationEn: "Northwest Watercolor Society, USA",
         locationZh: "美国西北水彩画协会"
@@ -149,9 +149,9 @@ window.CHER_WANG_EXHIBITIONS = [
       },
       {
         year: "2021",
-        titleEn: "Materials Award, Northwest Watercolor Society 81st International Exhibition",
-        titleZh: "美国西北水彩画协会第81届国际公开年度展材料奖",
-        locationEn: "For Passionate Fishing Port",
+        titleEn: "Juror's Commendation Award, Northwest Watercolor Society 81st Annual International Open Exhibition",
+        titleZh: "美国西北水彩画协会第81届国际公开展评审嘉许奖",
+        locationEn: "For Passion at The Fishing Port",
         locationZh: "获奖作品：《热情渔港》"
       }
     ]
