@@ -744,6 +744,13 @@ html[data-lang="zh"] .book-edition--english {
   color: rgba(255, 253, 248, 0.72);
 }
 
+.contact-panel .contact-inline-link {
+  display: inline;
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+}
+
 .site-footer {
   background: var(--charcoal);
   color: rgba(255, 253, 248, 0.74);
