@@ -20,16 +20,21 @@
   const expandToggleButtons = document.querySelectorAll("[data-expand-toggle]");
 
   const featuredArtworkIds = [
+    "KXW-G-002",
     "KXW-W-022",
-    "KXW-W-006",
-    "KXW-W-003",
-    "KXW-W-013",
-    "KXW-W-033",
-    "KXW-P-042",
-    "KXW-W-018",
-    "KXW-W-004",
-    "KXW-G-002"
+    "KXW-W-011",
+    "KXW-W-026",
+    "KXW-W-027",
+    "KXW-W-005",
+    "KXW-W-010",
+    "KW-O-XXX"
   ];
+  const practiceArtworkIds = {
+    "transforming-fields": ["KXW-W-022", "KXW-W-015", "KXW-W-021", "KXW-W-034", "KXW-W-035", "KXW-W-037"],
+    "matter-and-trace": ["KXW-W-065", "KXW-P-066", "KXW-W-023", "KXW-W-026", "KXW-W-027", "KXW-W-031", "KXW-W-001", "KXW-W-009", "KXW-W-013", "KXW-W-014", "KXW-P-042"],
+    "living-presence": ["KXW-O-062", "KXW-W-006", "KXW-W-008", "KXW-W-017", "KXW-W-028", "KXW-W-032", "KXW-W-044", "KXW-O-047", "KXW-P-048", "KXW-P-049", "KXW-P-050", "KXW-O-055", "KXW-W-012", "KXW-W-018", "KXW-W-036", "KXW-HP-038", "KXW-W-033"],
+    "open-painting": ["KXW-W-005", "KXW-W-003", "KXW-W-004", "KXW-W-011", "KXW-W-007", "KXW-W-016", "KXW-W-020", "KXW-W-025", "KXW-O-046", "KXW-O-056", "KXW-G-002", "KXW-W-010", "KW-O-XXX"]
+  };
   const portfolioBatchSize = 12;
 
   let portfolioMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
@@ -208,8 +213,8 @@
   }
 
   const ARTWORK_IMAGE_DIMENSIONS = {
-    "assets/images/artworks-web/catalogue-raisonne/KW-O-XXX-1200.jpg": { width: 963, height: 1200 },
-    "assets/images/artworks-web/catalogue-raisonne/KW-O-XXX-2000.jpg": { width: 1606, height: 2000 },
+    "assets/images/artworks-web/catalogue-raisonne/KW-O-XXX-1200.jpg": { width: 1058, height: 1200 },
+    "assets/images/artworks-web/catalogue-raisonne/KW-O-XXX-2000.jpg": { width: 1763, height: 2000 },
     "assets/images/artworks-web/catalogue-raisonne/KW-P-005-1200.jpg": { width: 1200, height: 917 },
     "assets/images/artworks-web/catalogue-raisonne/KW-P-005-2000.jpg": { width: 2000, height: 1529 },
     "assets/images/artworks-web/catalogue-raisonne/KW-W-005-1200.jpg": { width: 1200, height: 817 },
@@ -385,7 +390,7 @@
   function filteredArtworks(artworks) {
     return currentFilter === "all"
       ? artworks
-      : artworks.filter((artwork) => artwork.category === currentFilter);
+      : artworks.filter((artwork) => (practiceArtworkIds[currentFilter] || []).includes(artwork.artworkId));
   }
 
   function featuredArtworks(artworks) {
@@ -407,7 +412,7 @@
       .map((artwork, index) => artworkCardMarkup(artwork, artworks, index))
       .join("");
 
-    portfolioFilters.hidden = false;
+    portfolioFilters.hidden = portfolioMode === "featured";
     viewFullPortfolio.hidden = portfolioMode !== "featured";
     loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
     portfolioTitleEn.textContent = portfolioMode === "featured" ? "Selected Works" : "Full Portfolio";
@@ -415,6 +420,7 @@
   }
 
   function renderExhibitions() {
+    if (!exhibitionsTarget) return;
     const groups = (window.CHER_WANG_EXHIBITIONS || []).filter((group) => (group.items || []).length);
     exhibitionsTarget.innerHTML = groups.map((group) => {
       const items = group.items || [];
@@ -447,6 +453,7 @@
   }
 
   function renderPublications() {
+    if (!publicationsTarget) return;
     const publications = window.CHER_WANG_PUBLICATIONS || [];
     const language = currentLanguage();
     publicationsTarget.innerHTML = publications.map((item) => `
@@ -639,6 +646,17 @@
       currentFilter = button.dataset.filter;
       visibleArtworkCount = portfolioBatchSize;
       filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+      renderGallery();
+    });
+  });
+
+  document.querySelectorAll("[data-practice-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      currentFilter = link.dataset.practiceLink;
+      portfolioMode = "full";
+      visibleArtworkCount = portfolioBatchSize;
+      filterButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.filter === currentFilter));
+      window.history.replaceState({ portfolioMode: "full" }, "", "#full-portfolio");
       renderGallery();
     });
   });

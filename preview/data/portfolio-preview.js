@@ -1,5 +1,23 @@
 window.CHER_WANG_PREVIEW_ARTWORKS = [
   {
+    "artworkId": "KW-O-XXX",
+    "titleZh": "华尔兹",
+    "titleEn": "Waltz",
+    "year": "2024",
+    "medium": "Oil on Canvas",
+    "dimensions": "80 × 100 cm",
+    "series": "光与生命 / Light and Life",
+    "category": "oil",
+    "image": "../assets/images/artworks-web/catalogue-raisonne/KW-O-XXX-2000.jpg",
+    "sourceFile": "华尔兹.jpg",
+    "sourceDocument": "/Volumes/Cher/网站/油画/华尔兹.jpg",
+    "keywords": "",
+    "statementZh": "《华尔兹》以深蓝为底，无数金色、朱红与雪白的漩涡在其间旋转、碰撞、扩散，如水面的涟漪，也如星群的运行轨迹。圆形笔触彼此呼应又各自独立，仿佛在同一支看不见的旋律中起舞。华尔兹的三拍循环与旋转是一种有规律的失衡，也是一种在流动中保持平衡的运动方式。画面中的漩涡没有单一中心，每一个旋涡既是自己的中心，又被周围更大的旋流牵引、卷入彼此的轨道，回应生命在相互作用与运动中不断生成的状态。作品以厚涂与旋转笔触构建动态肌理，蓝色作为统一介质承载所有旋涡，金色、橙色与朱红如跳动的音符点缀其间；画面右上角隐约的眼睛与流星般的睫毛，暗示观看与被观看的意识漂浮于这场宇宙般的舞蹈之中。",
+    "statementEn": "Waltz explores the rhythm of light, energy, and life through an abstract visual language. Expansive blue tones form a fluid spatial field where swirling brushstrokes, luminous dots, and expressive lines move together like a cosmic dance. Rather than presenting a fixed narrative, the painting invites viewers into an open perceptual space. The spirals and flowing marks evoke galaxies, ocean currents, cellular growth, and the continuous unfolding of life, expressing the endless vitality of nature and the universe.",
+    "matchStatus": "matched",
+    "matchedOriginalImage": "/Volumes/Cher/网站/油画/华尔兹.jpg"
+  },
+  {
     "artworkId": "KXW-O-057",
     "titleZh": "Two Two",
     "titleEn": "Two Two",
@@ -595,7 +613,7 @@ window.CHER_WANG_PREVIEW_ARTWORKS = [
   },
   {
     "artworkId": "KXW-G-002",
-    "titleZh": "《水波荡漾》",
+    "titleZh": "《一池人间》",
     "titleEn": "Ripples of Coexistence（暂定）",
     "year": "2025",
     "medium": "Gouache on Paper（纸本水粉）",
@@ -606,7 +624,7 @@ window.CHER_WANG_PREVIEW_ARTWORKS = [
     "sourceFile": "KXW-G-002_水波荡漾_Artwork.docx",
     "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-G-002_水波荡漾_Artwork.docx",
     "keywords": "English:Relationship · Coexistence · Koi · Water · Light · Space · Reality中文：关系 · 共生 · 锦鲤 · 水 · 光 · 空间 · 现实",
-    "statementZh": "《水波荡漾》以现实中的餐厅与观赏鱼缸为原型，通过空间关系的重新组织，让人、水、锦鲤、光线与建筑共同存在于同一个流动的场域。作品借用了超现实的视觉语言，但关注的始终是真实世界中人与自然的关系。人们自在相聚，锦鲤悠然游动，彼此互不侵扰，在同一空间中共享宁静与温暖。画面希望呈现一种柔性的生命状态：人与万物可以相互尊重、共同栖居，而不是彼此对立。",
+    "statementZh": "《一池人间》以现实中的餐厅与观赏鱼缸为原型，通过空间关系的重新组织，让人、水、锦鲤、光线与建筑共同存在于同一个流动的场域。作品借用了超现实的视觉语言，但关注的始终是真实世界中人与自然的关系。人们自在相聚，锦鲤悠然游动，彼此互不侵扰，在同一空间中共享宁静与温暖。画面希望呈现一种柔性的生命状态：人与万物可以相互尊重、共同栖居，而不是彼此对立。",
     "statementEn": "Ripples of Coexistence is inspired by a real restaurant and its ornamental koi pond. By reorganizing spatial relationships, the work places people, water, koi, light, and architecture within a single flowing environment. While employing a surreal visual language, the painting remains rooted in the relationship between humanity and nature. People gather naturally as koi swim freely, sharing a peaceful space without conflict. The work expresses a gentle vision of coexistence in which different forms of life inhabit the same world with mutual respect.",
     "matchStatus": "matched",
     "matchedOriginalImage": "/Volumes/Cher/水彩/水波荡漾.jpg"
