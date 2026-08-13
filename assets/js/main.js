@@ -29,16 +29,19 @@
     "KXW-W-010",
     "KW-O-XXX"
   ];
-  const practiceArtworkIds = {
-    "transforming-fields": ["KXW-W-022", "KXW-W-015", "KXW-W-021", "KXW-W-034", "KXW-W-035", "KXW-W-037"],
-    "matter-and-trace": ["KXW-W-065", "KXW-P-066", "KXW-W-023", "KXW-W-026", "KXW-W-027", "KXW-W-031", "KXW-W-001", "KXW-W-009", "KXW-W-013", "KXW-W-014", "KXW-P-042"],
-    "living-presence": ["KXW-O-062", "KXW-W-006", "KXW-W-008", "KXW-W-017", "KXW-W-028", "KXW-W-032", "KXW-W-044", "KXW-O-047", "KXW-P-048", "KXW-P-049", "KXW-P-050", "KXW-O-055", "KXW-W-012", "KXW-W-018", "KXW-W-036", "KXW-HP-038", "KXW-W-033"],
-    "open-painting": ["KXW-W-005", "KXW-W-003", "KXW-W-004", "KXW-W-011", "KXW-W-007", "KXW-W-016", "KXW-W-020", "KXW-W-025", "KXW-O-046", "KXW-O-056", "KXW-G-002", "KXW-W-010", "KW-O-XXX"]
-  };
+  let practiceArtworkIds = {};
   const portfolioBatchSize = 12;
 
-  let portfolioMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
-  let currentFilter = "all";
+  function portfolioStateFromHash() {
+    const match = window.location.hash.match(/^#works-(transforming-fields|matter-and-trace|living-presence|open-painting)$/);
+    if (match) return { mode: "full", filter: match[1] };
+    if (window.location.hash === "#full-portfolio") return { mode: "full", filter: "all" };
+    return { mode: "featured", filter: "all" };
+  }
+
+  const initialPortfolioState = portfolioStateFromHash();
+  let portfolioMode = initialPortfolioState.mode;
+  let currentFilter = initialPortfolioState.filter;
   let visibleArtworkCount = portfolioBatchSize;
   let activeArtwork = null;
 
@@ -415,8 +418,15 @@
     portfolioFilters.hidden = portfolioMode === "featured";
     viewFullPortfolio.hidden = portfolioMode !== "featured";
     loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
-    portfolioTitleEn.textContent = portfolioMode === "featured" ? "Selected Works" : "Full Portfolio";
-    portfolioTitleZh.textContent = portfolioMode === "featured" ? "精选作品" : "全部作品";
+    const titles = {
+      "transforming-fields": ["Transforming Fields", "变化中的场域"],
+      "matter-and-trace": ["Matter & Trace", "物质与痕迹"],
+      "living-presence": ["Living Presence", "生命在场"],
+      "open-painting": ["Open Painting", "开放的绘画"]
+    };
+    const title = portfolioMode === "featured" ? ["Selected Works", "精选作品"] : (titles[currentFilter] || ["All Works", "全部作品"]);
+    portfolioTitleEn.textContent = title[0];
+    portfolioTitleZh.textContent = title[1];
   }
 
   function renderExhibitions() {
@@ -563,9 +573,8 @@
   }
 
   function syncPortfolioModeFromLocation() {
-    const nextMode = window.location.hash === "#full-portfolio" ? "full" : "featured";
-
-    if (nextMode === portfolioMode) {
+    const state = portfolioStateFromHash();
+    if (state.mode === portfolioMode && state.filter === currentFilter) {
       return;
     }
 
@@ -573,7 +582,12 @@
       closeLightbox();
     }
 
-    setPortfolioMode(nextMode);
+    portfolioMode = state.mode;
+    currentFilter = state.filter;
+    visibleArtworkCount = portfolioBatchSize;
+    filterButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.filter === currentFilter));
+    renderGallery();
+    if (portfolioMode === "full") document.querySelector("#portfolio").scrollIntoView({ block: "start" });
   }
 
   function updateExpandToggle(button, expanded) {
@@ -646,19 +660,13 @@
       currentFilter = button.dataset.filter;
       visibleArtworkCount = portfolioBatchSize;
       filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+      window.history.pushState({}, "", currentFilter === "all" ? "#full-portfolio" : `#works-${currentFilter}`);
       renderGallery();
     });
   });
 
   document.querySelectorAll("[data-practice-link]").forEach((link) => {
-    link.addEventListener("click", () => {
-      currentFilter = link.dataset.practiceLink;
-      portfolioMode = "full";
-      visibleArtworkCount = portfolioBatchSize;
-      filterButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.filter === currentFilter));
-      window.history.replaceState({ portfolioMode: "full" }, "", "#full-portfolio");
-      renderGallery();
-    });
+    link.addEventListener("click", () => setTimeout(syncPortfolioModeFromLocation, 0));
   });
 
   gallery.addEventListener("click", (event) => {
@@ -726,7 +734,24 @@
     }
   });
 
-  renderGallery();
+  fetch("data/works-classification-map.json")
+    .then((response) => {
+      if (!response.ok) throw new Error(`Classification map unavailable (${response.status})`);
+      return response.json();
+    })
+    .then((classification) => {
+      practiceArtworkIds = Object.fromEntries(
+        Object.entries(classification.groups || {})
+          .filter(([key]) => key !== "pending-review")
+          .map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)])
+      );
+      renderGallery();
+    })
+    .catch((error) => {
+      console.error(error);
+      currentFilter = "all";
+      renderGallery();
+    });
   renderExhibitions();
   renderPublications();
 })();
