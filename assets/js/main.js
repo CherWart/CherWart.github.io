@@ -38,7 +38,6 @@
     if (window.location.hash === "#full-portfolio") return { mode: "full", filter: "all" };
     return { mode: "featured", filter: "all" };
   }
-
   const initialPortfolioState = portfolioStateFromHash();
   let portfolioMode = initialPortfolioState.mode;
   let currentFilter = initialPortfolioState.filter;
@@ -418,19 +417,12 @@
     portfolioFilters.hidden = portfolioMode === "featured";
     viewFullPortfolio.hidden = portfolioMode !== "featured";
     loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
-    const titles = {
-      "transforming-fields": ["Transforming Fields", "变化中的场域"],
-      "matter-and-trace": ["Matter & Trace", "物质与痕迹"],
-      "living-presence": ["Living Presence", "生命在场"],
-      "open-painting": ["Open Painting", "开放的绘画"]
-    };
+    const titles = {"transforming-fields":["Transforming Fields","变化中的场域"],"matter-and-trace":["Matter & Trace","物质与痕迹"],"living-presence":["Living Presence","生命在场"],"open-painting":["Open Painting","开放的绘画"]};
     const title = portfolioMode === "featured" ? ["Selected Works", "精选作品"] : (titles[currentFilter] || ["All Works", "全部作品"]);
-    portfolioTitleEn.textContent = title[0];
-    portfolioTitleZh.textContent = title[1];
+    portfolioTitleEn.textContent = title[0]; portfolioTitleZh.textContent = title[1];
   }
 
   function renderExhibitions() {
-    if (!exhibitionsTarget) return;
     const groups = (window.CHER_WANG_EXHIBITIONS || []).filter((group) => (group.items || []).length);
     exhibitionsTarget.innerHTML = groups.map((group) => {
       const items = group.items || [];
@@ -463,7 +455,6 @@
   }
 
   function renderPublications() {
-    if (!publicationsTarget) return;
     const publications = window.CHER_WANG_PUBLICATIONS || [];
     const language = currentLanguage();
     publicationsTarget.innerHTML = publications.map((item) => `
@@ -582,12 +573,9 @@
       closeLightbox();
     }
 
-    portfolioMode = state.mode;
-    currentFilter = state.filter;
-    visibleArtworkCount = portfolioBatchSize;
+    portfolioMode = state.mode; currentFilter = state.filter; visibleArtworkCount = portfolioBatchSize;
     filterButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.filter === currentFilter));
     renderGallery();
-    if (portfolioMode === "full") document.querySelector("#portfolio").scrollIntoView({ block: "start" });
   }
 
   function updateExpandToggle(button, expanded) {
@@ -734,24 +722,10 @@
     }
   });
 
-  fetch("data/works-classification-map.json")
-    .then((response) => {
-      if (!response.ok) throw new Error(`Classification map unavailable (${response.status})`);
-      return response.json();
-    })
-    .then((classification) => {
-      practiceArtworkIds = Object.fromEntries(
-        Object.entries(classification.groups || {})
-          .filter(([key]) => key !== "pending-review")
-          .map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)])
-      );
-      renderGallery();
-    })
-    .catch((error) => {
-      console.error(error);
-      currentFilter = "all";
-      renderGallery();
-    });
+  fetch("data/works-classification-map.json").then((response) => response.json()).then((classification) => {
+    practiceArtworkIds = Object.fromEntries(Object.entries(classification.groups || {}).filter(([key]) => key !== "pending-review").map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)]));
+    renderGallery();
+  }).catch((error) => { console.error(error); currentFilter = "all"; renderGallery(); });
   renderExhibitions();
   renderPublications();
 })();
