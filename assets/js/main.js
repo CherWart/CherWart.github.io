@@ -30,6 +30,7 @@
     "KW-O-XXX"
   ];
   let practiceArtworkIds = {};
+  let classificationReady = false;
   const portfolioBatchSize = 12;
 
   function portfolioStateFromHash() {
@@ -390,6 +391,7 @@
   }
 
   function filteredArtworks(artworks) {
+    if (currentFilter !== "all" && !classificationReady) return artworks;
     return currentFilter === "all"
       ? artworks
       : artworks.filter((artwork) => (practiceArtworkIds[currentFilter] || []).includes(artwork.artworkId));
@@ -458,7 +460,7 @@
     const publications = window.CHER_WANG_PUBLICATIONS || [];
     const language = currentLanguage();
     publicationsTarget.innerHTML = publications.map((item) => `
-      <article class="publication-card">
+      <a class="publication-card" href="${escapeHtml(item.href || "books.html")}">
         <img src="${escapeHtml(item.image)}" width="1625" height="2050" loading="lazy" alt="${escapeHtml(item.alt || (language === "zh" ? item.titleZh : `${item.titleEn} cover`))}">
         <div class="publication-card-body">
           <h3>
@@ -470,7 +472,7 @@
             <span data-i18n="zh">${protectedHtml(item.typeZh)}</span>
           </p>
         </div>
-      </article>
+      </a>
     `).join("");
   }
 
@@ -722,10 +724,14 @@
     }
   });
 
-  fetch("data/works-classification-map.json").then((response) => response.json()).then((classification) => {
+  fetch("data/works-classification-map.json").then((response) => {
+    if (!response.ok) throw new Error(`Classification map unavailable (${response.status})`);
+    return response.json();
+  }).then((classification) => {
     practiceArtworkIds = Object.fromEntries(Object.entries(classification.groups || {}).filter(([key]) => key !== "pending-review").map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)]));
+    classificationReady = true;
     renderGallery();
-  }).catch((error) => { console.error(error); currentFilter = "all"; renderGallery(); });
+  }).catch((error) => { console.error(error); currentFilter = "all"; portfolioMode = "full"; renderGallery(); });
   renderExhibitions();
   renderPublications();
 })();
