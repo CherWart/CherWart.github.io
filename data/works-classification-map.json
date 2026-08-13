@@ -1,0 +1,64 @@
+{
+  "version": "2026-08-14-first-pass",
+  "status": "review-required",
+  "noteZh": "第二阶段第一次分类映射。每件作品只出现一次；本文件尚未接入网站展示，分类内部顺序保持当前作品数据顺序。",
+  "noteEn": "First-pass Stage Two classification map. Each artwork appears once; this file is not yet connected to the public site, and the existing artwork data order is preserved within each group.",
+  "groups": {
+    "transforming-fields": [
+      { "artworkId": "KXW-W-065", "titleZh": "拂晓", "titleEn": "Daybreak" },
+      { "artworkId": "KXW-W-022", "titleZh": "《前海绿幕》", "titleEn": "Qianhai Green Curtain" },
+      { "artworkId": "KXW-W-015", "titleZh": "《深山瑶乡辟通途》", "titleEn": "A New Passage Through the Yao Mountains" },
+      { "artworkId": "KXW-W-021", "titleZh": "《三峡枢纽——白洋港陆港铁路》", "titleEn": "Three Gorges Hub — Baiyang Port Rail Connection" },
+      { "artworkId": "KXW-W-034", "titleZh": "《前海建设日志——第一桩》", "titleEn": "Qianhai Construction Log: The First Pile" },
+      { "artworkId": "KXW-W-035", "titleZh": "《大山交响》", "titleEn": "A Symphony of the Mountains" },
+      { "artworkId": "KXW-W-037", "titleZh": "《侗家新屋》", "titleEn": "New Homes in a Dong Village" }
+    ],
+    "matter-and-trace": [
+      { "artworkId": "KXW-P-066", "titleZh": "窗前", "titleEn": "By the Window" },
+      { "artworkId": "KXW-W-023", "titleZh": "《痕迹》", "titleEn": "Traces" },
+      { "artworkId": "KXW-W-026", "titleZh": "《雎鸠游伴》", "titleEn": "Love Forever in the Landscape" },
+      { "artworkId": "KXW-W-027", "titleZh": "《映像》", "titleEn": "Reflections" },
+      { "artworkId": "KXW-W-031", "titleZh": "《乡村琉璃路》", "titleEn": "Village Glazed Path" },
+      { "artworkId": "KXW-W-001", "titleZh": "《和平静域》", "titleEn": "Realm of Stillness" },
+      { "artworkId": "KXW-W-009", "titleZh": "木堆上的草帽", "titleEn": "The Straw Hat on the Woodpile" },
+      { "artworkId": "KXW-W-013", "titleZh": "《柴蕴塔里木》", "titleEn": "Firewood of Tarim" },
+      { "artworkId": "KXW-W-014", "titleZh": "《酱色右玉》", "titleEn": "Earth Tones of Youyu" }
+    ],
+    "living-presence": [
+      { "artworkId": "KXW-O-062", "titleZh": "曼珠沙华", "titleEn": "Red Spider Lilies" },
+      { "artworkId": "KXW-W-006", "titleZh": "梦之蓝", "titleEn": "Blue Dream" },
+      { "artworkId": "KXW-W-008", "titleZh": "暖阳", "titleEn": "Warm Sun" },
+      { "artworkId": "KXW-W-017", "titleZh": "《水岸夕阳》", "titleEn": "Sunset over the Riverside" },
+      { "artworkId": "KXW-W-025", "titleZh": "《大芬印象（二）》", "titleEn": "Impression of Dafen (II)" },
+      { "artworkId": "KXW-W-028", "titleZh": "《街边》", "titleEn": "By the Street" },
+      { "artworkId": "KXW-W-032", "titleZh": "《苔色正浓》", "titleEn": "When the Moss Deepens" },
+      { "artworkId": "KXW-W-044", "titleZh": "《午睡时光》", "titleEn": "Afternoon Nap" },
+      { "artworkId": "KXW-O-047", "titleZh": "《金湾翔集》", "titleEn": "Gathering over the Golden Bay" },
+      { "artworkId": "KXW-P-048", "titleZh": "《栖光》", "titleEn": "Dwelling in Light" },
+      { "artworkId": "KXW-P-049", "titleZh": "《夜色匆匆》", "titleEn": "Hurrying Through the Night" },
+      { "artworkId": "KXW-P-050", "titleZh": "《叶撷其光》", "titleEn": "Gathering the Light Through Leaves" },
+      { "artworkId": "KXW-O-055", "titleZh": "《栖息之境》", "titleEn": "Sanctuary" },
+      { "artworkId": "KXW-W-012", "titleZh": "《春江水暖》", "titleEn": "Spring Waters Grow Warm" },
+      { "artworkId": "KXW-W-018", "titleZh": "《热情渔港》", "titleEn": "Passion at The Fishing Port" },
+      { "artworkId": "KXW-W-036", "titleZh": "《窗前的红樱桃》", "titleEn": "Red Cherries by the Window" },
+      { "artworkId": "KXW-HP-038", "titleZh": "《向远方》", "titleEn": "Toward the Distance" },
+      { "artworkId": "KXW-P-042", "titleZh": "《绿风酸甜》", "titleEn": "Sweet and Sour in the Green Wind" }
+    ],
+    "open-painting": [
+      { "artworkId": "KXW-W-005", "titleZh": "大芬印象", "titleEn": "Dafen Impression" },
+      { "artworkId": "KXW-W-003", "titleZh": "《凯风自南》", "titleEn": "Kai Feng from the South" },
+      { "artworkId": "KXW-W-004", "titleZh": "《绿野清风》", "titleEn": "Verdant Breeze" },
+      { "artworkId": "KXW-W-011", "titleZh": "《相遇》", "titleEn": "Encounter" },
+      { "artworkId": "KXW-W-007", "titleZh": "《翠影幽塘》", "titleEn": "Emerald Shadows in the Quiet Pond" },
+      { "artworkId": "KXW-W-016", "titleZh": "《万物未言》", "titleEn": "When All Things Remain Unspoken" },
+      { "artworkId": "KXW-W-020", "titleZh": "《蓝色练习曲》", "titleEn": "Blue Etude" },
+      { "artworkId": "KXW-O-046", "titleZh": "《重叠的记忆》", "titleEn": "Layers of Memory" },
+      { "artworkId": "KXW-O-056", "titleZh": "《凤眼果》", "titleEn": "Chinese Olive Fruit" },
+      { "artworkId": "KXW-G-002", "titleZh": "《水波荡漾》", "titleEn": "Ripples of Coexistence（暂定）" },
+      { "artworkId": "KXW-W-010", "titleZh": "《白露为霜》", "titleEn": "White Dew Turns to Frost" }
+    ],
+    "pending-review": [
+      { "artworkId": "KXW-W-033", "titleZh": "《小桥》", "titleEn": "Little Bridge", "reasonZh": "现有图像与阐述主要强调普通景观的自然光影和日常诗意，尚不足以确定其不可替代的核心是物质与反射、生命在场，还是更开放的视觉结构。" }
+    ]
+  }
+}
