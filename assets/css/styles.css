@@ -179,6 +179,65 @@ button {
   padding: 0 2px;
 }
 
+.hero-lede p {
+  margin: 0 0 0.7em;
+}
+
+.hero-lede p:last-child {
+  margin-bottom: 0;
+}
+
+.works-intro {
+  max-width: 920px;
+  margin: 0 0 36px;
+}
+
+.works-directions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+
+.works-direction {
+  background: var(--surface);
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.works-direction .direction-number {
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  margin: 0 0 24px;
+}
+
+.works-direction h3 {
+  font-size: clamp(20px, 2.2vw, 30px);
+  letter-spacing: 0.04em;
+  margin: 0 0 4px;
+}
+
+.works-direction h4 {
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 18px;
+}
+
+.works-direction p:last-child {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 0;
+}
+
+.classification-note {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 42px;
+}
+
 .nav-toggle {
   display: none;
   width: 42px;
@@ -1165,6 +1224,10 @@ html[data-lang="zh"] [data-i18n="en"] {
   .about-shell,
   .publication-grid,
   .publication-card {
+    grid-template-columns: 1fr;
+  }
+
+  .works-directions {
     grid-template-columns: 1fr;
   }
 
