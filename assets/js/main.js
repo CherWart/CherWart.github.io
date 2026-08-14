@@ -29,8 +29,8 @@
     "KXW-W-010",
     "KW-O-XXX"
   ];
-  let practiceArtworkIds = {};
-  let classificationReady = false;
+  let practiceArtworkIds = window.CHER_WANG_WORK_CLASSIFICATIONS || {};
+  let classificationReady = Object.keys(practiceArtworkIds).length > 0;
   const portfolioBatchSize = 12;
 
   function portfolioStateFromHash() {
@@ -44,6 +44,10 @@
   let currentFilter = initialPortfolioState.filter;
   let visibleArtworkCount = portfolioBatchSize;
   let activeArtwork = null;
+
+  filterButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.filter === currentFilter);
+  });
 
   yearTargets.forEach((target) => {
     target.textContent = new Date().getFullYear();
@@ -407,9 +411,7 @@
     const availableArtworks = portfolioMode === "featured"
       ? filteredArtworks(featuredArtworks(artworks))
       : filteredArtworks(artworks);
-    const visibleArtworks = portfolioMode === "featured"
-      ? availableArtworks
-      : availableArtworks.slice(0, visibleArtworkCount);
+    const visibleArtworks = availableArtworks;
 
     gallery.classList.toggle("is-featured", portfolioMode === "featured");
     gallery.innerHTML = visibleArtworks
@@ -418,7 +420,7 @@
 
     portfolioFilters.hidden = portfolioMode === "featured";
     viewFullPortfolio.hidden = portfolioMode !== "featured";
-    loadMore.hidden = portfolioMode === "featured" || visibleArtworks.length >= availableArtworks.length;
+    loadMore.hidden = true;
     const titles = {"transforming-fields":["Transforming Fields","变化中的场域"],"matter-and-trace":["Matter & Trace","物质与痕迹"],"living-presence":["Living Presence","生命在场"],"open-painting":["Open Painting","开放的绘画"]};
     const title = portfolioMode === "featured" ? ["Selected Works", "精选作品"] : (titles[currentFilter] || ["All Works", "全部作品"]);
     portfolioTitleEn.textContent = title[0]; portfolioTitleZh.textContent = title[1];
@@ -724,14 +726,17 @@
     }
   });
 
-  fetch("data/works-classification-map.json").then((response) => {
-    if (!response.ok) throw new Error(`Classification map unavailable (${response.status})`);
-    return response.json();
-  }).then((classification) => {
-    practiceArtworkIds = Object.fromEntries(Object.entries(classification.groups || {}).filter(([key]) => key !== "pending-review").map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)]));
-    classificationReady = true;
-    renderGallery();
-  }).catch((error) => { console.error(error); currentFilter = "all"; portfolioMode = "full"; renderGallery(); });
+  if (!classificationReady) {
+    fetch("data/works-classification-map.json").then((response) => {
+      if (!response.ok) throw new Error(`Classification map unavailable (${response.status})`);
+      return response.json();
+    }).then((classification) => {
+      practiceArtworkIds = Object.fromEntries(Object.entries(classification.groups || {}).filter(([key]) => key !== "pending-review").map(([key, entries]) => [key, entries.map((entry) => entry.artworkId)]));
+      classificationReady = true;
+      renderGallery();
+    }).catch((error) => { console.error(error); currentFilter = "all"; portfolioMode = "full"; renderGallery(); });
+  }
+  renderGallery();
   renderExhibitions();
   renderPublications();
 })();

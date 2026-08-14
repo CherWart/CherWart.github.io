@@ -639,6 +639,10 @@ html[data-lang="zh"] .book-edition--english {
   order: 3;
 }
 
+.book-edition--participant {
+  order: 4;
+}
+
 .book-edition-grid {
   display: grid;
   grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
@@ -656,6 +660,15 @@ html[data-lang="zh"] .book-edition--english {
   height: auto;
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
+}
+
+.book-cover-link {
+  display: block;
+}
+
+.book-cover-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .book-copy {
@@ -697,6 +710,11 @@ html[data-lang="zh"] .book-edition--english {
 
 .book-sample-link {
   margin-top: 12px;
+}
+
+.book-amazon-link {
+  margin-top: 12px;
+  margin-right: 10px;
 }
 
 .book-sample-link:focus-visible {
