@@ -39,7 +39,7 @@ jobs:
           cp -R assets/images/portraits _site/assets/images/
           cp -R assets/images/publications _site/assets/images/
           cp -R preview _site/preview
-          cp data/artworks.js data/exhibitions.js data/publications.js data/analytics-config.js data/site-config.json _site/data/
+          cp data/artworks.js data/exhibitions.js data/publications.js data/works-classification-map.js data/analytics-config.js data/site-config.json _site/data/
           cp tools/build-seo.mjs tools/validate-seo.mjs _site/tools/
           node _site/tools/build-seo.mjs _site
           node _site/tools/validate-seo.mjs _site
