@@ -671,6 +671,17 @@ html[data-lang="zh"] .book-edition--english {
   outline-offset: 4px;
 }
 
+.book-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.book-title-link:hover,
+.book-title-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
 .book-copy {
   max-width: 650px;
 }
