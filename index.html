@@ -65,7 +65,7 @@
   }
   </script>
   <script src="assets/js/language.js?v=20260713-full-site-language"></script>
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260814-featured-gallery-layout">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260816-amazon-store-selector">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -283,6 +283,8 @@
               <span data-i18n="en">Books, Catalogues & Publications</span>
               <span data-i18n="zh">书籍、画册与出版物</span>
             </h2>
+            <p class="amazon-marketplace-note"><span data-i18n="en">Amazon Kindle availability varies by marketplace. Please choose the Amazon store linked to your account.</span><span data-i18n="zh">Kindle 购买资格因 Amazon 商城而异，请选择与你账户所在地区对应的 Amazon 商城。</span></p>
+            <p class="amazon-store-control"><span data-i18n="en">Current store:</span><span data-i18n="zh">当前商城：</span> <strong data-amazon-current-store></strong> · <button type="button" data-amazon-change-store><span data-i18n="en">Change Amazon Store</span><span data-i18n="zh">更换商城</span></button></p>
           </div>
         </div>
         <div class="publication-grid" data-publications></div>
@@ -347,6 +349,7 @@
   <script src="data/exhibitions.js?v=20260628-final-audit"></script>
   <script src="data/publications.js?v=20260814-four-amazon-books"></script>
   <script src="assets/js/main.js?v=20260814-eight-featured-works"></script>
+  <script src="assets/js/amazon-store.js?v=20260816-marketplace-selector-4"></script>
   <script defer src="data/analytics-config.js"></script>
   <script defer src="assets/js/analytics.js"></script>
 </body>

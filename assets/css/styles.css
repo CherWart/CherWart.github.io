@@ -631,7 +631,7 @@ h3 {
   font-size: clamp(46px, 6vw, 76px);
 }
 
-.books-hero p:last-child {
+.books-hero-intro {
   max-width: 720px;
   margin: 18px 0 0;
   color: var(--muted);
@@ -744,6 +744,142 @@ html[data-lang="zh"] .book-edition--english {
 .book-amazon-link {
   margin-top: 12px;
   margin-right: 10px;
+}
+
+.amazon-marketplace-note {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.amazon-store-control {
+  margin: 7px 0 0 !important;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.amazon-store-control strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.amazon-store-control button {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+
+body.amazon-store-open {
+  overflow: hidden;
+}
+
+.amazon-store-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(32, 32, 29, 0.62);
+}
+
+.amazon-store-modal[hidden] {
+  display: none;
+}
+
+.amazon-store-dialog {
+  width: min(100%, 680px);
+  max-height: min(88vh, 760px);
+  max-height: min(88dvh, 760px);
+  overflow-y: auto;
+  padding: clamp(24px, 4vw, 38px);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.amazon-store-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.amazon-store-dialog h2 {
+  margin: 4px 0 0;
+  font-size: clamp(27px, 4vw, 38px);
+  line-height: 1.15;
+}
+
+.amazon-store-close {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.amazon-store-description,
+.amazon-store-footnote {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.amazon-store-description {
+  margin: 18px 0 22px;
+}
+
+.amazon-store-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.amazon-store-grid [data-amazon-store] {
+  display: block;
+  min-height: 52px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.amazon-store-grid [data-amazon-store]:hover,
+.amazon-store-grid [data-amazon-store]:focus-visible,
+.amazon-store-grid [data-amazon-store].is-current {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.amazon-store-grid [data-amazon-store] small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.amazon-store-grid [data-amazon-store]:hover small,
+.amazon-store-grid [data-amazon-store]:focus-visible small,
+.amazon-store-grid [data-amazon-store].is-current small {
+  color: var(--line);
+}
+
+.amazon-store-footnote {
+  margin: 18px 0 0;
 }
 
 .book-sample-link:focus-visible {
@@ -1196,7 +1332,7 @@ html[data-lang="zh"] [data-i18n="en"] {
     font-size: 31px;
   }
 
-  .books-hero p:last-child {
+  .books-hero-intro {
     font-size: 16px;
   }
 
@@ -1231,6 +1367,25 @@ html[data-lang="zh"] [data-i18n="en"] {
 
   .filter-bar button {
     white-space: nowrap;
+  }
+
+  .amazon-store-modal {
+    align-items: end;
+    padding: 12px;
+  }
+
+  .amazon-store-dialog {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 22px 18px;
+  }
+
+  .amazon-store-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .amazon-store-grid [data-amazon-store] {
+    min-height: 48px;
   }
 
   .about-shell,
