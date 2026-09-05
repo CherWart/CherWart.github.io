@@ -110,7 +110,9 @@ button {
   background: var(--charcoal);
   color: var(--surface);
   font-family: Georgia, serif;
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .brand-name,
