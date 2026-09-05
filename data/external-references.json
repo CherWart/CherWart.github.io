@@ -1,0 +1,107 @@
+{
+  "artist_id": "https://cherwart.github.io/#artist",
+  "artist_name": "KAIXUAN WANG",
+  "alternate_names": ["王凯萱", "Wang Kaixuan"],
+  "records": [
+    {
+      "year": 2023,
+      "source": "China Artists Association",
+      "title": "Third Shenzhen International Watercolor Biennial — final review results",
+      "artwork": "Qianhai Green Curtain / 前海绿幕",
+      "evidence_type": "institutional_result",
+      "language": "zh",
+      "url": "https://www.caanet.org.cn/newsdetail.mx?id=8939",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2022,
+      "source": "China Artists Association",
+      "title": "China Road · Better Life — National Art Exhibition — final review results",
+      "artwork": "Three Gorges Hub — Baiyang Port Rail Connection / 三峡枢纽白洋港路港铁路建设",
+      "evidence_type": "institutional_result",
+      "language": "zh",
+      "url": "https://www.caanet.org.cn/newsdetail.mx?id=8666",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2025,
+      "source": "China Artists Association",
+      "title": "With Affection for Tarim — final review results",
+      "artwork": "Firewood of Tarim / 柴蕴塔里木",
+      "evidence_type": "institutional_result",
+      "language": "zh",
+      "url": "https://www.caanet.org.cn/newsdetail.mx?id=9945",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2023,
+      "source": "TAG Gallery / Artwork Archive",
+      "title": "The First Shelley Lazarus Award for Excellence in Watercolor Exhibition — Award Winners",
+      "artwork": "The small bridge in the hometown",
+      "evidence_type": "exhibition_award_record",
+      "language": "en",
+      "url": "https://www.artworkarchive.com/profile/tag-gallery/exhibition/the-first-shelley-lazarus-award-for-excellence-in-watercolor-exhibition/pieces?room=award-winners",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2023,
+      "source": "Northwest Watercolor Society",
+      "title": "2023 Waterworks Membership Exhibition — accepted artists catalog",
+      "artwork": "Blue Dream",
+      "evidence_type": "professional_association_catalog",
+      "language": "en",
+      "url": "https://www.nwws.org/wp-content/uploads/2023/04/2023_WW-Catalog_WEB.pdf",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2026,
+      "source": "North East Watercolor Society",
+      "title": "50th Annual Juried Exhibition — accepted artists",
+      "artwork": "Quiet Corner",
+      "evidence_type": "professional_association_result",
+      "language": "en",
+      "url": "https://northeastwatercolor.com/",
+      "authority_tier": "primary"
+    },
+    {
+      "year": 2024,
+      "source": "美术报",
+      "title": "探寻·王凯萱作品中的哲思与诗意",
+      "artwork": "Multiple works",
+      "evidence_type": "editorial_profile",
+      "language": "zh",
+      "url": "https://msb.zjol.com.cn/html/2024-12/14/content_4292350.htm?div=-1",
+      "authority_tier": "professional_media"
+    },
+    {
+      "year": 2021,
+      "source": "Artron",
+      "title": "溯源开新——中国当代水彩画家邀请展（广东·上海）在深圳美术馆开幕",
+      "artwork": "Passion at The Fishing Port / 热情渔港",
+      "evidence_type": "editorial_exhibition_record",
+      "language": "zh",
+      "url": "https://amma.artron.net/observation_shownews.php?newid=1102469",
+      "authority_tier": "professional_media"
+    },
+    {
+      "year": 2025,
+      "source": "广东国际艺术周 / Sohu",
+      "title": "王凯萱：作品中的哲思与诗意",
+      "artwork": "Multiple works",
+      "evidence_type": "secondary_profile",
+      "language": "zh",
+      "url": "https://www.sohu.com/a/901064107_122434080",
+      "authority_tier": "secondary_profile"
+    },
+    {
+      "year": 2025,
+      "source": "Gallerium",
+      "title": "Melancholy — 2025",
+      "artwork": "Silent Space (AW127326572)",
+      "evidence_type": "platform_artwork_record",
+      "language": "en",
+      "url": "https://www.gallerium.art/melancholy-2025?AW=AW127326572",
+      "authority_tier": "platform_record"
+    }
+  ]
+}

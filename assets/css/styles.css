@@ -1310,3 +1310,128 @@ html[data-lang="zh"] [data-i18n="en"] {
     height: 230px;
   }
 }
+
+/* External references: scoped editorial index styles. */
+.records-reference-link {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.records-reference-link a {
+  border-bottom: 1px solid var(--line);
+}
+
+.references-hero {
+  padding: clamp(76px, 10vw, 132px) 0 clamp(58px, 8vw, 96px);
+}
+
+.references-hero-inner {
+  max-width: 850px;
+}
+
+.references-hero h1 {
+  font-size: clamp(44px, 6.4vw, 78px);
+}
+
+.references-intro {
+  max-width: 720px;
+  margin: 26px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.references-index {
+  padding: clamp(68px, 8vw, 108px) 0;
+}
+
+.references-group + .references-group {
+  margin-top: 76px;
+}
+
+.references-group-head {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.36fr) minmax(0, 0.64fr);
+  gap: 34px;
+  align-items: baseline;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.references-group-head h2 {
+  font-size: clamp(27px, 3vw, 39px);
+}
+
+.references-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reference-record {
+  display: grid;
+  grid-template-columns: 90px minmax(170px, 0.34fr) minmax(0, 0.66fr) auto;
+  gap: 24px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.reference-year,
+.reference-source,
+.reference-language {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.reference-source {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.reference-title {
+  margin: 0 0 8px;
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.reference-description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.reference-link {
+  min-width: 94px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  text-align: right;
+}
+
+.reference-link:hover,
+.reference-link:focus {
+  border-color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .references-group-head,
+  .reference-record {
+    grid-template-columns: 1fr;
+  }
+
+  .references-group-head,
+  .reference-record {
+    gap: 10px;
+  }
+
+  .reference-record {
+    padding: 25px 0 30px;
+  }
+
+  .reference-link {
+    width: fit-content;
+    margin-top: 8px;
+    text-align: left;
+  }
+}
