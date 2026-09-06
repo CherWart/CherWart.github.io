@@ -7,8 +7,8 @@ const configPath = path.join(targetDirectory, "data", "site-config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 const siteUrl = String(config.siteUrl || "").replace(/\/$/, "");
 
-if (!/^https:\/\/cherwart\.github\.io$/.test(siteUrl)) {
-  throw new Error("siteUrl must be https://cherwart.github.io");
+if (siteUrl !== "https://kaixuanwang.art") {
+  throw new Error("siteUrl must be https://kaixuanwang.art");
 }
 
 const urls = config.sitemapPaths.map((route) => `${siteUrl}${route}`);

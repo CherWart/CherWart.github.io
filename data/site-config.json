@@ -1,9 +1,12 @@
 {
-  "siteUrl": "https://cherwart.github.io",
+  "siteUrl": "https://kaixuanwang.art",
   "googleSiteVerification": "",
   "sitemapPaths": [
     "/",
+    "/about.html",
     "/books.html",
+    "/research.html",
+    "/references.html",
     "/contact.html",
     "/privacy.html",
     "/terms.html",
