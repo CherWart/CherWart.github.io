@@ -507,6 +507,9 @@
     const awards = localizedTaggedText(artwork.awards);
     const collection = localizedTaggedText(artwork.collection);
     const publication = localizedTaggedText(artwork.publication);
+    const workNote = language === "zh"
+      ? String(artwork.workNoteZh || artwork.workNote || "")
+      : String(artwork.workNoteEn || artwork.workNote || "");
     const detailMeta = localizedJoinParts([artwork.year, artwork.medium, artwork.dimensions, artwork.series]);
 
     lightboxImage.alt = title || "";
@@ -518,6 +521,7 @@
         <h3>${protectedHtml(title)}</h3>
         ${detailMeta ? `<p class="meta-line">${detailMeta}</p>` : ""}
       </div>
+      ${recordBlock("Work Note", "作品说明", workNote)}
       ${recordBlock("Keywords", "关键词", keywords)}
       ${recordBlock("Artwork Statement", "作品阐述", statement)}
       ${recordBlock("Exhibition History", "展览经历", exhibitionHistory)}

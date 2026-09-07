@@ -372,6 +372,10 @@ h3 {
   line-height: 1.78;
 }
 
+.about-practice-link {
+  margin: 20px 0 0;
+}
+
 .section-toggle {
   margin-top: 24px;
 }
