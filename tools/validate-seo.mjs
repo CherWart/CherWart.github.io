@@ -23,6 +23,7 @@ const expectedUrls = htmlFiles.map((file) => {
   const relative = path.relative(root, file).split(path.sep).join("/");
   return relative === "index.html" ? `${siteUrl}/` : `${siteUrl}/${relative}`;
 });
+const configuredSitemapUrls = config.sitemapPaths.map((route) => `${siteUrl}${route}`);
 const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 const errors = [];
@@ -47,13 +48,14 @@ function recordUnique(collection, value, label, file) {
   else collection.set(value, file);
 }
 
-for (const url of expectedUrls) if (!sitemapUrls.includes(url)) errors.push(`Sitemap missing: ${url}`);
+for (const url of configuredSitemapUrls) if (!sitemapUrls.includes(url)) errors.push(`Sitemap missing configured URL: ${url}`);
+for (const url of sitemapUrls) if (!configuredSitemapUrls.includes(url)) errors.push(`Sitemap has unconfigured URL: ${url}`);
 for (const url of sitemapUrls) if (!expectedUrls.includes(url)) errors.push(`Sitemap URL has no HTML page: ${url}`);
 
 const requiredHeadPatterns = [
   [/<title(?:\s|>)/i, "title"],
   [/<meta\s+name="description"/i, "meta description"],
-  [/<meta\s+name="robots"\s+content="index, follow"/i, "crawlable robots meta"],
+  [/<meta\s+name="robots"/i, "robots meta"],
   [/<link\s+rel="canonical"/i, "canonical URL"],
   [/<meta\s+property="og:title"/i, "Open Graph tags"],
   [/<meta\s+name="twitter:card"/i, "Twitter Card tags"],
@@ -66,6 +68,7 @@ for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   const label = path.relative(root, file);
   const expectedUrl = expectedUrls[htmlFiles.indexOf(file)];
+  const isIndexable = sitemapUrls.includes(expectedUrl);
   for (const [pattern, name] of requiredHeadPatterns) if (!pattern.test(html)) errors.push(`${label}: missing ${name}`);
 
   const title = html.match(/<title(?:\s[^>]*)?>([^<]+)<\/title>/i)?.[1].trim() || "";
@@ -79,15 +82,25 @@ for (const file of htmlFiles) {
   if (!title) errors.push(`${label}: empty title`);
   if (!description) errors.push(`${label}: empty meta description`);
   if (canonicalTags.length !== 1) errors.push(`${label}: expected exactly one canonical URL`);
-  if (canonical && canonical !== expectedUrl) errors.push(`${label}: canonical does not match page URL`);
+  if (isIndexable && canonical && canonical !== expectedUrl) errors.push(`${label}: indexable page canonical does not match page URL`);
   recordUnique(titles, title, "title", label);
   recordUnique(descriptions, description, "meta description", label);
-  recordUnique(canonicals, canonical, "canonical URL", label);
+  if (isIndexable) recordUnique(canonicals, canonical, "canonical URL", label);
 
   const robotsTag = findMeta(html, "name", "robots");
   const robotsContent = robotsTag ? attribute(robotsTag, "content").toLowerCase() : "";
-  if (!robotsContent.includes("index") || !robotsContent.includes("follow") || robotsContent.includes("noindex")) {
-    errors.push(`${label}: robots meta does not permit indexing and following`);
+  if (isIndexable) {
+    if (!robotsContent.includes("index") || !robotsContent.includes("follow") || robotsContent.includes("noindex")) {
+      errors.push(`${label}: sitemap page must permit indexing and following`);
+    }
+  } else if (!robotsContent.includes("noindex")) {
+    errors.push(`${label}: page excluded from sitemap must be noindex`);
+  }
+  if (label === "preview/portfolio-preview.html" && !robotsContent.includes("nofollow")) {
+    errors.push(`${label}: preview page must be noindex,nofollow`);
+  }
+  if (label !== "preview/portfolio-preview.html" && !robotsContent.includes("follow")) {
+    errors.push(`${label}: non-preview page must permit link following`);
   }
 
   const requiredOpenGraph = ["og:type", "og:title", "og:description", "og:url", "og:site_name", "og:image"];
@@ -96,7 +109,7 @@ for (const file of htmlFiles) {
     if (!tag || !attribute(tag, "content").trim()) errors.push(`${label}: missing or empty ${property}`);
   }
   const ogUrlTag = findMeta(html, "property", "og:url");
-  if (ogUrlTag && attribute(ogUrlTag, "content") !== canonical) errors.push(`${label}: og:url does not match canonical URL`);
+  if (isIndexable && ogUrlTag && attribute(ogUrlTag, "content") !== canonical) errors.push(`${label}: og:url does not match canonical URL`);
 
   const jsonLdBlocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   if (!jsonLdBlocks.length) errors.push(`${label}: missing JSON-LD`);
@@ -125,6 +138,23 @@ if (!/User-agent:\s*\*/i.test(robots) || !/Allow:\s*\//i.test(robots)) errors.pu
 if (!robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`)) errors.push("robots.txt has the wrong sitemap URL");
 
 if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push("Sitemap contains duplicate URLs");
+
+const homepage = fs.readFileSync(path.join(root, "index.html"), "utf8");
+for (const href of ["books.html", "practice.html", "references.html"]) {
+  if (!new RegExp(`<a\\b[^>]*\\bhref=["']${href}["']`, "i").test(homepage)) {
+    errors.push(`index.html: missing crawlable link to ${href}`);
+  }
+}
+
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, "utf8");
+  const refresh = html.match(/<meta\s+http-equiv=["']refresh["'][^>]*content=["'][^"']*url=([^"']+)["']/i)?.[1];
+  if (!refresh) continue;
+  const source = path.relative(root, file).split(path.sep).join("/");
+  const target = refresh.split("#")[0] || source;
+  if (target === source || target === path.basename(source)) errors.push(`${source}: redirect loop detected`);
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);

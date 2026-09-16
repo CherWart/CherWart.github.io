@@ -3,16 +3,9 @@
   "googleSiteVerification": "",
   "sitemapPaths": [
     "/",
-    "/about.html",
     "/practice.html",
     "/books.html",
     "/research.html",
-    "/references.html",
-    "/contact.html",
-    "/privacy.html",
-    "/terms.html",
-    "/copyright.html",
-    "/disclaimer.html",
-    "/preview/portfolio-preview.html"
+    "/references.html"
   ]
 }
