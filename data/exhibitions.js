@@ -80,8 +80,8 @@ window.CHER_WANG_EXHIBITIONS = [
     items: [
       {
         year: "2023",
-        titleEn: "Homeland Bridge and New House of the Dong People, Shelley Lazarus Watercolor Exhibition",
-        titleZh: "《故乡的小桥》《侗家新屋》入选雪莱·拉扎勒斯水彩画展",
+        titleEn: "The Small Bridge in the Hometown awarded First Place; New Homes in a Dong Village exhibited in the Shelley Lazarus Watercolor Exhibition",
+        titleZh: "《故乡的小桥》获雪莱·拉扎勒斯水彩奖一等奖；《新洞寨新屋》参加该展",
         locationEn: "TAG Gallery, Los Angeles, USA",
         locationZh: "美国洛杉矶 TAG Gallery"
       },
@@ -101,10 +101,10 @@ window.CHER_WANG_EXHIBITIONS = [
       },
       {
         year: "2022",
-        titleEn: "Blue Dream selected for the Northwest Watercolor Society 83rd International Open Exhibition",
-        titleZh: "《蓝之梦》入选美国西北水彩画协会第83届国际公开年度展",
-        locationEn: "USA",
-        locationZh: "美国"
+        titleEn: "Reported Northwest Watercolor Society International Open record for Blue Dream — verification pending",
+        titleZh: "《蓝之梦》美国西北水彩画协会国际公开展记录——待官方证据核实",
+        locationEn: "Pending verification",
+        locationZh: "待核"
       },
       {
         year: "2021",

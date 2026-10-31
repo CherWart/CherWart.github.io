@@ -125,7 +125,8 @@ assertions = {
   "KXW-W-001" => { "titleZh" => "《和平静域》", "titleEn" => "Realm of Stillness", "year" => "2023" },
   "KXW-W-023" => { "titleZh" => "《痕迹》", "year" => "2022" },
   "KXW-W-004" => { "titleZh" => "《绿野清风》", "year" => "2025" },
-  "KXW-W-022" => { "year" => "2022", "medium" => "纸本水彩 / Watercolor on paper", "dimensions" => "76 × 103 cm" },
+  "KXW-W-022" => { "year" => "2022", "medium" => "纸本水彩 / Watercolor on paper", "dimensions" => "78.5 × 109 cm" },
+  "KXW-G-002" => { "year" => "2025", "medium" => "Gouache on Paper（纸本水粉）", "dimensions" => "72 × 103 cm" },
   "KXW-W-034" => { "titleEn" => "Qianhai Construction Log: The First Pile", "dimensions" => "83 × 110 cm" },
   "KXW-W-035" => { "titleEn" => "A Symphony of the Mountains", "dimensions" => "79 × 112 cm" }
 }
