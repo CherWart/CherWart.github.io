@@ -122,11 +122,28 @@ end
 
 by_id = artworks.to_h { |record| [record.fetch("artworkId"), record] }
 assertions = {
-  "KXW-W-001" => { "titleZh" => "《和平静域》", "titleEn" => "Realm of Stillness", "year" => "2023" },
+  "KXW-W-001" => { "titleZh" => "《和平静域》", "titleEn" => "Realm of Stillness", "year" => "2023", "dimensions" => "80 × 120 cm" },
   "KXW-W-023" => { "titleZh" => "《痕迹》", "year" => "2022" },
   "KXW-W-004" => { "titleZh" => "《绿野清风》", "year" => "2025" },
   "KXW-W-022" => { "year" => "2022", "medium" => "纸本水彩 / Watercolor on paper", "dimensions" => "78.5 × 109 cm" },
   "KXW-G-002" => { "year" => "2025", "medium" => "Gouache on Paper（纸本水粉）", "dimensions" => "72 × 103 cm" },
+  "KW-O-XXX" => { "titleZh" => "华尔兹", "year" => "2024", "medium" => "Oil on Canvas", "dimensions" => "89 × 120 cm" },
+  "KXW-W-025" => { "titleZh" => "《大芬印象（二）》", "dimensions" => "53 × 76 cm" },
+  "KXW-W-008" => { "titleZh" => "暖阳", "dimensions" => "76 × 53 cm" },
+  "KXW-O-047" => { "titleZh" => "《金湾翔集》", "dimensions" => "150 × 120 cm" },
+  "KXW-P-048" => { "titleZh" => "《栖光》", "dimensions" => "46 × 39 cm" },
+  "KXW-O-056" => { "titleZh" => "《凤眼果》", "dimensions" => "79 × 50 cm" },
+  "KXW-P-050" => { "titleZh" => "《叶撷其光》", "dimensions" => "105 × 100 cm" },
+  "KXW-W-033" => { "titleZh" => "《小桥》", "dimensions" => "76 × 47 cm" },
+  "KXW-HP-038" => { "titleZh" => "《向远方》", "dimensions" => "52 × 34 cm" },
+  "KXW-W-026" => { "titleZh" => "《雎鸠游伴》", "dimensions" => "76 × 46 cm" },
+  "KXW-W-028" => { "titleZh" => "《街边》", "dimensions" => "76 × 53 cm" },
+  "KXW-W-031" => { "titleZh" => "《琉璃路》", "historicalTitleZh" => "《乡村琉璃路》", "dimensions" => "54 × 39 cm" },
+  "KXW-W-032" => { "titleZh" => "《苔色正浓》", "dimensions" => "54 × 36 cm" },
+  "KXW-P-042" => { "titleZh" => "《绿风酸甜》", "dimensions" => "82 × 120 cm" },
+  "KXW-W-009" => { "titleZh" => "木堆上的草帽", "dimensions" => "76 × 53 cm" },
+  "KXW-W-015" => { "titleZh" => "《深山瑶乡辟通途》", "dimensions" => "132 × 102 cm" },
+  "KXW-W-010" => { "titleZh" => "《白露为霜》", "dimensions" => "76 × 53 cm" },
   "KXW-W-034" => { "titleEn" => "Qianhai Construction Log: The First Pile", "dimensions" => "83 × 110 cm" },
   "KXW-W-035" => { "titleEn" => "A Symphony of the Mountains", "dimensions" => "79 × 112 cm" }
 }
