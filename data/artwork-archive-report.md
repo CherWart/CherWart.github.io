@@ -2,8 +2,8 @@
 
 Source folder: `/Volumes/Cher/Catalogue Raisonné（作品总目录）`
 
-- Artwork records read: 67
-- Embedded images matched: 67
+- Artwork records read: 68
+- Embedded images matched: 68
 - Issues requiring confirmation: 4
 
 - KXW-W-020 《蓝色练习曲》：系列待确认。

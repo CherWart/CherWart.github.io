@@ -50,8 +50,39 @@
       "artwork": "Blue Dream",
       "evidence_type": "professional_association_catalog",
       "language": "en",
-      "url": "https://www.nwws.org/wp-content/uploads/2023/04/2023_WW-Catalog_WEB.pdf",
+      "url": "https://www.nwws.org/annual-waterworks-exhibition/",
       "authority_tier": "primary"
+    },
+    {
+      "year": 2026,
+      "source": "Magpies Magazine",
+      "title": "Why Human Painting Still Matters in the Age of AI",
+      "artwork": "Qianhai Green Curtain; Kai Feng from the South",
+      "evidence_type": "artist_authored_editorial_article",
+      "language": "en",
+      "url": "https://magpiesmagazine.com/2026/09/15/why-human-painting-still-matters-in-the-age-of-ai/",
+      "authority_tier": "publisher_primary"
+    },
+    {
+      "year": 2026,
+      "source": "Curatone Art & Research Journal",
+      "title": "Why Must Strength Be Hard? Softness, Relation, and the Practice of Painting",
+      "artwork": "Artist-authored research and critical writing",
+      "evidence_type": "artist_authored_research_article",
+      "language": "en",
+      "doi": "10.5281/zenodo.23118251",
+      "url": "https://curatone.art/journal/kaixuan-wang-why-must-strength-be-hard",
+      "authority_tier": "publisher_primary"
+    },
+    {
+      "year": 2026,
+      "source": "Superpresent",
+      "title": "Fall 2026, Volume 6, Number 4",
+      "artwork": "Qianhai Green Curtain / 前海绿幕, printed page 110",
+      "evidence_type": "published_artwork",
+      "language": "en",
+      "url": "https://superpresent.org/wp-content/uploads/2026/10/V6N4-4b.pdf",
+      "authority_tier": "publisher_primary"
     },
     {
       "year": 2026,

@@ -8,6 +8,9 @@ ROOT = File.expand_path("..", __dir__)
 ARCHIVE = File.join(ROOT, "data", "artwork-archive.json")
 CATALOGUE = File.join(ROOT, "data", "catalogue-raisonne-master.json")
 WEBSITE = File.join(ROOT, "data", "artworks.js")
+PREVIEW = File.join(ROOT, "preview", "data", "portfolio-preview.js")
+CLASSIFICATION_MAP = File.join(ROOT, "data", "works-classification-map.json")
+CLASSIFICATION_JS = File.join(ROOT, "data", "works-classification-map.js")
 CSV_EXPORT = File.join(ROOT, "data", "artwork-archive.csv")
 REPORT = File.join(ROOT, "data", "artwork-archive-report.md")
 
@@ -16,7 +19,7 @@ def fail_with(errors)
   exit 1
 end
 
-paths = [ARCHIVE, CATALOGUE, WEBSITE, CSV_EXPORT, REPORT]
+paths = [ARCHIVE, CATALOGUE, WEBSITE, PREVIEW, CLASSIFICATION_MAP, CLASSIFICATION_JS, CSV_EXPORT, REPORT]
 missing_paths = paths.reject { |path| File.file?(path) }
 fail_with(missing_paths.map { |path| "missing #{path}" }) unless missing_paths.empty?
 
@@ -25,6 +28,13 @@ catalogue = JSON.parse(File.read(CATALOGUE))
 website_source = File.read(WEBSITE)
 website_json = website_source.sub(/\A\s*window\.CHER_WANG_ARTWORKS\s*=\s*/, "").sub(/;\s*\z/, "")
 website = JSON.parse(website_json)
+preview_source = File.read(PREVIEW)
+preview_json = preview_source.sub(/\A\s*window\.CHER_WANG_PREVIEW_ARTWORKS\s*=\s*/, "").sub(/;\s*\z/, "")
+preview = JSON.parse(preview_json)
+classification_map = JSON.parse(File.read(CLASSIFICATION_MAP)).fetch("groups")
+classification_source = File.read(CLASSIFICATION_JS)
+classification_json = classification_source.sub(/\A\s*window\.CHER_WANG_WORK_CLASSIFICATIONS\s*=\s*/, "").sub(/;\s*\z/, "")
+classification_js = JSON.parse(classification_json)
 csv = CSV.read(CSV_EXPORT, headers: true)
 report = File.read(REPORT)
 artworks = archive.fetch("artworks")
@@ -37,6 +47,7 @@ end
 archive_index = index_by_id(artworks)
 catalogue_index = index_by_id(catalogue.fetch("artworks"))
 website_index = index_by_id(website)
+preview_index = index_by_id(preview)
 errors << "catalogue and archive artwork IDs differ" unless catalogue_index.keys.sort == archive_index.keys.sort
 website_only_ids = website_index.keys - archive_index.keys
 errors << "website contains records absent from archive: #{website_only_ids.join(", ")}" unless website_only_ids.empty?
@@ -48,6 +59,22 @@ website_index.each do |id, record|
   shared_fields = record.keys - ["image"]
   different = shared_fields.select { |field| record[field] != archive_record[field] }
   errors << "#{id}: website/archive content differs in #{different.join(", ")}" unless different.empty?
+end
+
+public_classifications = %w[transforming-fields matter-and-trace living-presence open-painting]
+expected_classification_keys = public_classifications + ["pending-review"]
+errors << "classification map keys changed" unless classification_map.keys == expected_classification_keys
+errors << "public classification JS keys changed" unless classification_js.keys == public_classifications
+public_ids = public_classifications.flat_map { |name| classification_map.fetch(name, []).map { |record| record.fetch("artworkId") } }
+js_public_ids = public_classifications.flat_map { |name| classification_js.fetch(name, []) }
+pending_ids = classification_map.fetch("pending-review", []).map { |record| record.fetch("artworkId") }
+errors << "artworks appear in more than one public classification" unless public_ids.uniq.length == public_ids.length
+errors << "pending artworks also appear in a public classification" unless (pending_ids & public_ids).empty?
+errors << "classification map does not cover each website artwork exactly once" unless (public_ids + pending_ids).sort == website_index.keys.sort
+errors << "public classification JS differs from classification map" unless js_public_ids.sort == public_ids.sort
+public_classifications.each do |name|
+  json_ids = classification_map.fetch(name, []).map { |record| record.fetch("artworkId") }
+  errors << "#{name}: JS order differs from classification map" unless classification_js.fetch(name, []) == json_ids
 end
 
 expected_count = archive.fetch("summary").fetch("totalWebsiteArtworks")
@@ -122,13 +149,36 @@ end
 
 by_id = artworks.to_h { |record| [record.fetch("artworkId"), record] }
 assertions = {
-  "KXW-W-001" => { "titleZh" => "《和平静域》", "titleEn" => "Realm of Stillness", "year" => "2023" },
+  "KXW-W-001" => { "titleZh" => "《和平静域》", "titleEn" => "Realm of Stillness", "year" => "2023", "dimensions" => "80 × 120 cm" },
   "KXW-W-023" => { "titleZh" => "《痕迹》", "year" => "2022" },
   "KXW-W-004" => { "titleZh" => "《绿野清风》", "year" => "2025" },
-  "KXW-W-022" => { "year" => "2022", "medium" => "纸本水彩 / Watercolor on paper", "dimensions" => "76 × 103 cm" },
+  "KXW-W-022" => { "year" => "2022", "medium" => "纸本水彩 / Watercolor on paper", "dimensions" => "78.5 × 109 cm" },
+  "KXW-G-002" => { "year" => "2025", "medium" => "Gouache on Paper（纸本水粉）", "dimensions" => "72 × 103 cm" },
+  "KW-O-XXX" => { "titleZh" => "华尔兹", "year" => "2024", "medium" => "Oil on Canvas", "dimensions" => "89 × 120 cm" },
+  "KXW-W-025" => { "titleZh" => "《大芬印象（二）》", "dimensions" => "53 × 76 cm" },
+  "KXW-W-008" => { "titleZh" => "暖阳", "dimensions" => "76 × 53 cm" },
+  "KXW-O-047" => { "titleZh" => "《金湾翔集》", "dimensions" => "150 × 120 cm" },
+  "KXW-P-048" => { "titleZh" => "《栖光》", "dimensions" => "46 × 39 cm" },
+  "KXW-O-056" => { "titleZh" => "《凤眼果》", "dimensions" => "79 × 50 cm" },
+  "KXW-P-050" => { "titleZh" => "《叶撷其光》", "dimensions" => "105 × 100 cm" },
+  "KXW-W-033" => { "titleZh" => "《小桥》", "dimensions" => "76 × 47 cm" },
+  "KXW-HP-038" => { "titleZh" => "《向远方》", "dimensions" => "52 × 34 cm" },
+  "KXW-W-026" => { "titleZh" => "《雎鸠游伴》", "dimensions" => "76 × 46 cm" },
+  "KXW-W-028" => { "titleZh" => "《街边》", "dimensions" => "76 × 53 cm" },
+  "KXW-W-031" => { "titleZh" => "《琉璃路》", "historicalTitleZh" => "《乡村琉璃路》", "dimensions" => "54 × 39 cm" },
+  "KXW-W-032" => { "titleZh" => "《苔色正浓》", "dimensions" => "54 × 36 cm" },
+  "KXW-P-042" => { "titleZh" => "《绿风酸甜》", "dimensions" => "82 × 120 cm" },
+  "KXW-W-009" => { "titleZh" => "木堆上的草帽", "dimensions" => "76 × 53 cm" },
+  "KXW-W-015" => { "titleZh" => "《深山瑶乡辟通途》", "dimensions" => "132 × 102 cm" },
+  "KXW-W-010" => { "titleZh" => "《白露为霜》", "dimensions" => "76 × 53 cm" },
   "KXW-W-034" => { "titleEn" => "Qianhai Construction Log: The First Pile", "dimensions" => "83 × 110 cm" },
   "KXW-W-035" => { "titleEn" => "A Symphony of the Mountains", "dimensions" => "79 × 112 cm" }
 }
+preview_audited_ids = %w[
+  KXW-W-001 KXW-W-022 KXW-G-002 KW-O-XXX KXW-W-025 KXW-W-008 KXW-O-047
+  KXW-P-048 KXW-O-056 KXW-P-050 KXW-W-033 KXW-HP-038 KXW-W-026 KXW-W-028
+  KXW-W-031 KXW-W-032 KXW-P-042 KXW-W-009 KXW-W-015 KXW-W-010
+]
 assertions.each do |id, fields|
   record = by_id[id]
   if record.nil?
@@ -136,7 +186,23 @@ assertions.each do |id, fields|
     next
   end
   fields.each { |field, expected| errors << "#{id}: expected #{field}=#{expected.inspect}" unless record.fetch(field, "") == expected }
+  next unless preview_audited_ids.include?(id)
+
+  preview_record = preview_index[id]
+  if preview_record.nil?
+    errors << "preview missing required audited artwork #{id}"
+  else
+    fields.each do |field, expected|
+      next unless %w[titleZh year medium dimensions historicalTitleZh].include?(field)
+
+      errors << "#{id}: preview expected #{field}=#{expected.inspect}" unless preview_record.fetch(field, "") == expected
+    end
+  end
 end
+
+little_bridge = by_id.fetch("KXW-W-033", {})
+little_bridge_record = [little_bridge.fetch("exhibitionHistory", ""), little_bridge.fetch("awards", ""), little_bridge.fetch("fullRecordText", "")].join("\n")
+errors << "KXW-W-033: unverified Shelley Lazarus award mapping remains" if little_bridge_record.match?(/Shelley Lazarus|TAG Gallery|First Place/i)
 
 harbor = by_id.fetch("KXW-W-018", {})
 expected_award = "Juror's Commendation Award, Northwest Watercolor Society 81st Annual International Open Exhibition, 2021."
