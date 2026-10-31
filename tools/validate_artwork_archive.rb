@@ -8,6 +8,7 @@ ROOT = File.expand_path("..", __dir__)
 ARCHIVE = File.join(ROOT, "data", "artwork-archive.json")
 CATALOGUE = File.join(ROOT, "data", "catalogue-raisonne-master.json")
 WEBSITE = File.join(ROOT, "data", "artworks.js")
+PREVIEW = File.join(ROOT, "preview", "data", "portfolio-preview.js")
 CSV_EXPORT = File.join(ROOT, "data", "artwork-archive.csv")
 REPORT = File.join(ROOT, "data", "artwork-archive-report.md")
 
@@ -16,7 +17,7 @@ def fail_with(errors)
   exit 1
 end
 
-paths = [ARCHIVE, CATALOGUE, WEBSITE, CSV_EXPORT, REPORT]
+paths = [ARCHIVE, CATALOGUE, WEBSITE, PREVIEW, CSV_EXPORT, REPORT]
 missing_paths = paths.reject { |path| File.file?(path) }
 fail_with(missing_paths.map { |path| "missing #{path}" }) unless missing_paths.empty?
 
@@ -25,6 +26,9 @@ catalogue = JSON.parse(File.read(CATALOGUE))
 website_source = File.read(WEBSITE)
 website_json = website_source.sub(/\A\s*window\.CHER_WANG_ARTWORKS\s*=\s*/, "").sub(/;\s*\z/, "")
 website = JSON.parse(website_json)
+preview_source = File.read(PREVIEW)
+preview_json = preview_source.sub(/\A\s*window\.CHER_WANG_PREVIEW_ARTWORKS\s*=\s*/, "").sub(/;\s*\z/, "")
+preview = JSON.parse(preview_json)
 csv = CSV.read(CSV_EXPORT, headers: true)
 report = File.read(REPORT)
 artworks = archive.fetch("artworks")
@@ -37,6 +41,7 @@ end
 archive_index = index_by_id(artworks)
 catalogue_index = index_by_id(catalogue.fetch("artworks"))
 website_index = index_by_id(website)
+preview_index = index_by_id(preview)
 errors << "catalogue and archive artwork IDs differ" unless catalogue_index.keys.sort == archive_index.keys.sort
 website_only_ids = website_index.keys - archive_index.keys
 errors << "website contains records absent from archive: #{website_only_ids.join(", ")}" unless website_only_ids.empty?
@@ -147,6 +152,11 @@ assertions = {
   "KXW-W-034" => { "titleEn" => "Qianhai Construction Log: The First Pile", "dimensions" => "83 × 110 cm" },
   "KXW-W-035" => { "titleEn" => "A Symphony of the Mountains", "dimensions" => "79 × 112 cm" }
 }
+preview_audited_ids = %w[
+  KXW-W-001 KXW-W-022 KXW-G-002 KW-O-XXX KXW-W-025 KXW-W-008 KXW-O-047
+  KXW-P-048 KXW-O-056 KXW-P-050 KXW-W-033 KXW-HP-038 KXW-W-026 KXW-W-028
+  KXW-W-031 KXW-W-032 KXW-P-042 KXW-W-009 KXW-W-015 KXW-W-010
+]
 assertions.each do |id, fields|
   record = by_id[id]
   if record.nil?
@@ -154,7 +164,23 @@ assertions.each do |id, fields|
     next
   end
   fields.each { |field, expected| errors << "#{id}: expected #{field}=#{expected.inspect}" unless record.fetch(field, "") == expected }
+  next unless preview_audited_ids.include?(id)
+
+  preview_record = preview_index[id]
+  if preview_record.nil?
+    errors << "preview missing required audited artwork #{id}"
+  else
+    fields.each do |field, expected|
+      next unless %w[titleZh year medium dimensions historicalTitleZh].include?(field)
+
+      errors << "#{id}: preview expected #{field}=#{expected.inspect}" unless preview_record.fetch(field, "") == expected
+    end
+  end
 end
+
+little_bridge = by_id.fetch("KXW-W-033", {})
+little_bridge_record = [little_bridge.fetch("exhibitionHistory", ""), little_bridge.fetch("awards", ""), little_bridge.fetch("fullRecordText", "")].join("\n")
+errors << "KXW-W-033: unverified Shelley Lazarus award mapping remains" if little_bridge_record.match?(/Shelley Lazarus|TAG Gallery|First Place/i)
 
 harbor = by_id.fetch("KXW-W-018", {})
 expected_award = "Juror's Commendation Award, Northwest Watercolor Society 81st Annual International Open Exhibition, 2021."

@@ -596,7 +596,7 @@ window.CHER_WANG_PREVIEW_ARTWORKS = [
   },
   {
     "artworkId": "KXW-W-001",
-    "titleZh": "《和平境域》",
+    "titleZh": "《和平静域》",
     "titleEn": "The Condition of Peace（暂定）",
     "year": "2023",
     "medium": "Watercolor on Paper（纸本水彩）",
