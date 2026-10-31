@@ -9,6 +9,8 @@ ARCHIVE = File.join(ROOT, "data", "artwork-archive.json")
 CATALOGUE = File.join(ROOT, "data", "catalogue-raisonne-master.json")
 WEBSITE = File.join(ROOT, "data", "artworks.js")
 PREVIEW = File.join(ROOT, "preview", "data", "portfolio-preview.js")
+CLASSIFICATION_MAP = File.join(ROOT, "data", "works-classification-map.json")
+CLASSIFICATION_JS = File.join(ROOT, "data", "works-classification-map.js")
 CSV_EXPORT = File.join(ROOT, "data", "artwork-archive.csv")
 REPORT = File.join(ROOT, "data", "artwork-archive-report.md")
 
@@ -17,7 +19,7 @@ def fail_with(errors)
   exit 1
 end
 
-paths = [ARCHIVE, CATALOGUE, WEBSITE, PREVIEW, CSV_EXPORT, REPORT]
+paths = [ARCHIVE, CATALOGUE, WEBSITE, PREVIEW, CLASSIFICATION_MAP, CLASSIFICATION_JS, CSV_EXPORT, REPORT]
 missing_paths = paths.reject { |path| File.file?(path) }
 fail_with(missing_paths.map { |path| "missing #{path}" }) unless missing_paths.empty?
 
@@ -29,6 +31,10 @@ website = JSON.parse(website_json)
 preview_source = File.read(PREVIEW)
 preview_json = preview_source.sub(/\A\s*window\.CHER_WANG_PREVIEW_ARTWORKS\s*=\s*/, "").sub(/;\s*\z/, "")
 preview = JSON.parse(preview_json)
+classification_map = JSON.parse(File.read(CLASSIFICATION_MAP)).fetch("groups")
+classification_source = File.read(CLASSIFICATION_JS)
+classification_json = classification_source.sub(/\A\s*window\.CHER_WANG_WORK_CLASSIFICATIONS\s*=\s*/, "").sub(/;\s*\z/, "")
+classification_js = JSON.parse(classification_json)
 csv = CSV.read(CSV_EXPORT, headers: true)
 report = File.read(REPORT)
 artworks = archive.fetch("artworks")
@@ -53,6 +59,22 @@ website_index.each do |id, record|
   shared_fields = record.keys - ["image"]
   different = shared_fields.select { |field| record[field] != archive_record[field] }
   errors << "#{id}: website/archive content differs in #{different.join(", ")}" unless different.empty?
+end
+
+public_classifications = %w[transforming-fields matter-and-trace living-presence open-painting]
+expected_classification_keys = public_classifications + ["pending-review"]
+errors << "classification map keys changed" unless classification_map.keys == expected_classification_keys
+errors << "public classification JS keys changed" unless classification_js.keys == public_classifications
+public_ids = public_classifications.flat_map { |name| classification_map.fetch(name, []).map { |record| record.fetch("artworkId") } }
+js_public_ids = public_classifications.flat_map { |name| classification_js.fetch(name, []) }
+pending_ids = classification_map.fetch("pending-review", []).map { |record| record.fetch("artworkId") }
+errors << "artworks appear in more than one public classification" unless public_ids.uniq.length == public_ids.length
+errors << "pending artworks also appear in a public classification" unless (pending_ids & public_ids).empty?
+errors << "classification map does not cover each website artwork exactly once" unless (public_ids + pending_ids).sort == website_index.keys.sort
+errors << "public classification JS differs from classification map" unless js_public_ids.sort == public_ids.sort
+public_classifications.each do |name|
+  json_ids = classification_map.fetch(name, []).map { |record| record.fetch("artworkId") }
+  errors << "#{name}: JS order differs from classification map" unless classification_js.fetch(name, []) == json_ids
 end
 
 expected_count = archive.fetch("summary").fetch("totalWebsiteArtworks")
