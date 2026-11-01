@@ -131,7 +131,7 @@ window.CHER_WANG_ARTWORKS = [
     "titleEn": "Kai Feng from the South",
     "year": "2025",
     "medium": "纸本水彩 / Watercolor on paper",
-    "dimensions": "114 × 80 cm",
+    "dimensions": "78.5 × 109 cm",
     "series": "万物存域 / Realm of Coexistence",
     "category": "watercolor",
     "image": "assets/images/artworks-web/catalogue-raisonne/KXW-003-2000.jpg",
@@ -142,7 +142,7 @@ window.CHER_WANG_ARTWORKS = [
     "awards": "",
     "collection": "",
     "publication": "",
-    "fullRecordText": "Artwork Record / 作品档案\nArtwork ID: KXW-W-003\nTitle (CN): 《凯风自南》\nTitle (EN): Kai Feng from the South\nYear: 2025\nMedium: 纸本水彩 / Watercolor on paper\nDimensions: 114 × 80 cm\nSeries (CN): 万物存域\nSeries (EN): Realm of Coexistence\nArtwork Statement (CN)\n《凯风自南》取意于《诗经》中的“凯风自南”。朱红色环形步道围绕古树展开，一位白衣女性缓慢穿行，飞鸟在上方打开更远的尺度。红与深绿的对照使人工结构和植物生命都保持鲜明，同时，环形路径把人物的移动重新带回树木与场所。作品借南风所含的温暖与滋养之意，观察守护、通行和共处如何在同一空间中成立。\nArtwork Statement (EN)\nKai Feng from the South takes its title from a phrase in the Book of Songs. A vermilion circular walkway unfolds around an ancient tree; a woman in white moves slowly through it, while birds open a wider scale above. The contrast between red and deep green keeps the constructed path and plant life equally present, and the circular route returns the figure’s movement to the tree and its site. Drawing on the southern breeze as an image of warmth and nurture, the work considers how protection, passage, and coexistence can occupy the same space.\nKeywords / 关键词\n中文：自然、树、女性、鸟、包容、共生、关系、生命、诗意、空间\nEnglish: Nature, Tree, Woman, Birds, Embrace, Coexistence, Relationship, Life, Poetic Space\nExhibition History / 展览经历\n中文：\n• 广东国际艺术周，广东，中国，2025。\n\nEnglish:\n• Guangdong International Art Week, Guangdong, China, 2025.",
+    "fullRecordText": "Artwork Record / 作品档案\nArtwork ID: KXW-W-003\nTitle (CN): 《凯风自南》\nTitle (EN): Kai Feng from the South\nYear: 2025\nMedium: 纸本水彩 / Watercolor on paper\nDimensions: 78.5 × 109 cm\nSeries (CN): 万物存域\nSeries (EN): Realm of Coexistence\nArtwork Statement (CN)\n《凯风自南》取意于《诗经》中的“凯风自南”。朱红色环形步道围绕古树展开，一位白衣女性缓慢穿行，飞鸟在上方打开更远的尺度。红与深绿的对照使人工结构和植物生命都保持鲜明，同时，环形路径把人物的移动重新带回树木与场所。作品借南风所含的温暖与滋养之意，观察守护、通行和共处如何在同一空间中成立。\nArtwork Statement (EN)\nKai Feng from the South takes its title from a phrase in the Book of Songs. A vermilion circular walkway unfolds around an ancient tree; a woman in white moves slowly through it, while birds open a wider scale above. The contrast between red and deep green keeps the constructed path and plant life equally present, and the circular route returns the figure’s movement to the tree and its site. Drawing on the southern breeze as an image of warmth and nurture, the work considers how protection, passage, and coexistence can occupy the same space.\nKeywords / 关键词\n中文：自然、树、女性、鸟、包容、共生、关系、生命、诗意、空间\nEnglish: Nature, Tree, Woman, Birds, Embrace, Coexistence, Relationship, Life, Poetic Space\nExhibition History / 展览经历\n中文：\n• 广东国际艺术周，广东，中国，2025。\n\nEnglish:\n• Guangdong International Art Week, Guangdong, China, 2025.",
     "sourceFile": "KXW-W-003_凯风自南_Artwork_.docx",
     "sourceDocument": "/Volumes/Cher/Catalogue Raisonné（作品总目录）/KXW-W-003_凯风自南_Artwork_.docx"
   },
