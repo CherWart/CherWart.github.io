@@ -221,8 +221,8 @@
 
   const ARTWORK_IMAGE_DIMENSIONS = {
     "assets/images/artworks-web/kw-o-000026.jpg": { width: 1070, height: 1536 },
-    "assets/images/artworks-web/kw-p-000003.jpg": { width: 1346, height: 1536 },
-    "assets/images/artworks-web/kw-w-000039.jpg": { width: 1536, height: 1146 },
+    "assets/images/artworks-web/kw-p-000003-clean.jpg": { width: 1275, height: 1536 },
+    "assets/images/artworks-web/kw-w-000039-clean.jpg": { width: 1536, height: 1160 },
     "assets/images/artworks-web/kw-o-000009.jpg": { width: 1049, height: 1536 },
     "assets/images/artworks-web/kw-o-000023.jpg": { width: 1082, height: 1536 },
     "assets/images/artworks-web/kw-o-000008.jpg": { width: 1536, height: 1104 },
